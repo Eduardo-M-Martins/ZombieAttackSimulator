@@ -14,10 +14,6 @@ public class Dumb extends Character {
         super.setImage(status);
     }
 
-    public void attack() {
-        this.attackNumber--;
-    }
-
     @Override
     public void infect() {
         if (this.isInfected()) {
@@ -52,9 +48,10 @@ public class Dumb extends Character {
                         if (p != null) {
                             if (p.getEnume() == Enume.RUNNER || p.getEnume() == Enume.ZOMBIE) {
                                 if (this.isAlive()) {
-                                    if (this.attackNumber > 0)
+                                    if (this.attackNumber > 0){
                                         p.decEnergy(45);
-                                    attack();
+                                        attackNumber--;
+                                    }
                                 }
                             }
                         }

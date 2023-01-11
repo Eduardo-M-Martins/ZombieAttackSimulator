@@ -20,8 +20,7 @@ public class Cell extends javafx.scene.control.Button {
             String image = "";
             if (this.getCharacter().isAlive()) {
                 image = this.getCharacter().getImage();
-            }
-            if (!this.getCharacter().isAlive()) {
+            } else {
                 image = "Dead";
             }
             ImageView iVaux = new ImageView(Game.getInstance().getImage(image));

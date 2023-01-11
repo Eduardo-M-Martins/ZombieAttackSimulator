@@ -222,7 +222,6 @@ public class Game extends Application {
                     }
                 }
             }
-
             crateRefresh();
             fixAmount();
         }
@@ -230,72 +229,31 @@ public class Game extends Application {
         final String IDLE_BUTTON_STYLE = "-fx-background-color: transparent; -fx-text-fill: white;";
         final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
 
-        Button nextStep = new Button("NEXT STEP");
-        nextStep.setFont(Font.font("Rockwell", 14));
-        nextStep.setCursor(Cursor.HAND);
-        nextStep.getCursor();
-        nextStep.setStyle(IDLE_BUTTON_STYLE);
-        nextStep.setOnMouseEntered(e -> nextStep.setStyle(HOVERED_BUTTON_STYLE));
-        nextStep.setOnMouseExited(e -> nextStep.setStyle(IDLE_BUTTON_STYLE));
+        HashMap<String, Button> buttons = new HashMap();
+        buttons.put("NEXT STEP", new Button("NEXT STEP"));
+        buttons.put("NEXT 10", new Button("NEXT 10"));
+        buttons.put("NEXT 100", new Button("NEXT 100"));
+        buttons.put("BACK", new Button("BACK"));
+        buttons.put("SAVE", new Button("SAVE"));
+        buttons.put("RESET", new Button("RESET"));
 
-        Button nextStep10 = new Button("NEXT 10");
-        nextStep10.setFont(Font.font("Rockwell", 14));
-        nextStep10.setCursor(Cursor.HAND);
-        nextStep10.getCursor();
-        nextStep10.setStyle(IDLE_BUTTON_STYLE);
-        nextStep10.setOnMouseEntered(e -> nextStep10.setStyle(HOVERED_BUTTON_STYLE));
-        nextStep10.setOnMouseExited(e -> nextStep10.setStyle(IDLE_BUTTON_STYLE));
-
-        Button nextStep100 = new Button("NEXT 100");
-        nextStep100.setFont(Font.font("Rockwell", 14));
-        nextStep100.setCursor(Cursor.HAND);
-        nextStep100.getCursor();
-        nextStep100.setStyle(IDLE_BUTTON_STYLE);
-        nextStep100.setOnMouseEntered(e -> nextStep100.setStyle(HOVERED_BUTTON_STYLE));
-        nextStep100.setOnMouseExited(e -> nextStep100.setStyle(IDLE_BUTTON_STYLE));
-
-        Button back = new Button("BACK");
-        back.setFont(Font.font("Rockwell", 14));
-        back.setOnAction(e -> primaryStage.close());
-        back.setCursor(Cursor.HAND);
-        back.getCursor();
-        back.setStyle(IDLE_BUTTON_STYLE);
-        back.setOnMouseEntered(e -> back.setStyle(HOVERED_BUTTON_STYLE));
-        back.setOnMouseExited(e -> back.setStyle(IDLE_BUTTON_STYLE));
-
-        Button save = new Button("SAVE");
-        save.setFont(Font.font("Rockwell", 14));
-        save.setOnAction(e -> geraTxtSave());
-        save.setCursor(Cursor.HAND);
-        save.getCursor();
-        save.setStyle(IDLE_BUTTON_STYLE);
-        save.setOnMouseEntered(e -> save.setStyle(HOVERED_BUTTON_STYLE));
-        save.setOnMouseExited(e -> save.setStyle(IDLE_BUTTON_STYLE));
-
-        Button refresh = new Button("RESET");
-        refresh.setFont(Font.font("Rockwell", 14));
-        refresh.setCursor(Cursor.HAND);
-        refresh.getCursor();
-        refresh.setStyle(IDLE_BUTTON_STYLE);
-        refresh.setOnMouseEntered(e -> refresh.setStyle(HOVERED_BUTTON_STYLE));
-        refresh.setOnMouseExited(e -> refresh.setStyle(IDLE_BUTTON_STYLE));
-
-        Button s1 = new Button("     ");
-        s1.setBorder(Border.EMPTY);
-        s1.setBackground(Background.EMPTY);
-        Button s2 = new Button("               ");
-        s2.setBorder(Border.EMPTY);
-        s2.setBackground(Background.EMPTY);
-        Button s3 = new Button("               ");
-        s3.setBorder(Border.EMPTY);
-        s3.setBackground(Background.EMPTY);
+        buttons.forEach((key, value) -> {
+            value.setFont(Font.font("Rockwell", 14));
+            value.setCursor(Cursor.HAND);
+            value.getCursor();
+            value.setStyle(IDLE_BUTTON_STYLE);
+            value.setAlignment(Pos.TOP_CENTER);
+            value.setOnMouseEntered(e -> value.setStyle(HOVERED_BUTTON_STYLE));
+            value.setOnMouseExited(e -> value.setStyle(IDLE_BUTTON_STYLE));
+        });
 
         TextField score = new TextField();
         score.setStyle("-fx-text-fill: yellow; -fx-font-weight: bold");
         score.setBorder(Border.EMPTY);
         score.setBackground(Background.EMPTY);
-        score.setFont(Font.font("Rockwell", 16));
+        score.setFont(Font.font("Rockwell", 14));
         score.setEditable(false);
+        score.setAlignment(Pos.TOP_RIGHT);
         score.setMinSize(180, 20);
         int intpts = ((ZOMBIEAMOUNT * 200) + (RUNNERAMOUNT * 300))
                 - ((DUMBAMOUNT * 50) + (HEALERAMOUNT * 75) + (SOLDIERAMOUNT * 100));
@@ -309,18 +267,13 @@ public class Game extends Application {
         vb.setAlignment(Pos.CENTER);
         hb.setAlignment(Pos.CENTER);
         vb.setPadding(new Insets(25, 25, 25, 25));
-        hb.getChildren().add(s1);
-        hb.getChildren().add(back);
-        hb.getChildren().add(save);
-        hb.getChildren().add(refresh);
-        hb.getChildren().add(s2);
-        save.setAlignment(Pos.CENTER_LEFT);
-        back.setAlignment(Pos.CENTER_LEFT);
-        refresh.setAlignment(Pos.CENTER_LEFT);
-        hb.getChildren().add(nextStep);
-        hb.getChildren().add(nextStep10);
-        hb.getChildren().add(nextStep100);
-        hb.getChildren().add(s3);
+        hb.setSpacing(10);
+        hb.getChildren().add(buttons.get("BACK"));
+        hb.getChildren().add(buttons.get("SAVE"));
+        hb.getChildren().add(buttons.get("RESET"));
+        hb.getChildren().add(buttons.get("NEXT STEP"));
+        hb.getChildren().add(buttons.get("NEXT 10"));
+        hb.getChildren().add(buttons.get("NEXT 100"));
         hb.getChildren().add(score);
         vb.getChildren().add(hb);
         vb.getChildren().add(tab);
@@ -482,10 +435,6 @@ public class Game extends Application {
         ph.setBackground(Background.EMPTY);
         ph.setEditable(false);
         ph.setMinSize(180, 20);
-        ph.setOnMouseEntered(e -> s2
-                .setStyle("-fx-text-fill: red; -fx-font-weight: bold; -fx-font-size: 20; -fx-font-family:Rockwell"));
-        ph.setOnMouseExited(e -> s2
-                .setStyle("-fx-text-fill: red; -fx-font-weight: bold; -fx-font-size: 20; -fx-font-family:Rockwell"));
         ph.setText("    %H:        " + pH() + "%");
         v4.getChildren().add(ph);
 
@@ -495,21 +444,23 @@ public class Game extends Application {
         pz.setBackground(Background.EMPTY);
         pz.setEditable(false);
         pz.setMinSize(180, 20);
-        pz.setOnMouseEntered(e -> s2
-                .setStyle("-fx-text-fill: green; -fx-font-weight: bold; -fx-font-size: 20; -fx-font-family:Rockwell"));
-        pz.setOnMouseExited(e -> s2
-                .setStyle("-fx-text-fill: green; -fx-font-weight: bold; -fx-font-size: 20; -fx-font-family:Rockwell"));
         pz.setText(" %Z:        " + pZ() + "%");
         v5.getChildren().add(pz);
 
-        refresh.setOnAction(e -> setRefresh(characters, cells, tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1,
-                tz2, tcor1, tcor2, pz, ph));
-        nextStep.setOnAction(e -> avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1,
-                tcor2, pz, ph));
-        nextStep10.setOnAction(e -> avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2,
-                tcor1, tcor2, pz, ph));
-        nextStep100.setOnAction(e -> avancaSimulacao100(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2,
-                tcor1, tcor2, pz, ph));
+        buttons.get("BACK").setOnAction(e -> primaryStage.close());
+        buttons.get("SAVE").setOnAction(e -> geraTxtSave());
+        buttons.get("RESET")
+                .setOnAction(e -> setRefresh(characters, cells, tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1,
+                        tz2, tcor1, tcor2, pz, ph));
+        buttons.get("NEXT STEP")
+                .setOnAction(e -> avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1,
+                        tcor2, pz, ph));
+        buttons.get("NEXT 10")
+                .setOnAction(e -> avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2,
+                        tcor1, tcor2, pz, ph));
+        buttons.get("NEXT 100")
+                .setOnAction(e -> avancaSimulacao100(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2,
+                        tcor1, tcor2, pz, ph));
 
         Scene scene = new Scene(vb, 1300, 750);
         primaryStage.initStyle(StageStyle.DECORATED);
