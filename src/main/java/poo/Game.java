@@ -16,22 +16,24 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 
 public class Game extends Application {
-    public static final int CELL_WIDTH = 50;
-    public static final int CELL_HEIGHT = 50;
+    public static final int CELL_SIDE = 60;
     public static final int NLIN = 10;
     public static final int NCOL = 16;
 
+    public static Game game = null;
     public static int DUMBAMOUNT;
     public static int ZOMBIEAMOUNT;
     public static int RUNNERAMOUNT;
     public static int HEALERAMOUNT;
     public static int SOLDIERAMOUNT;
-    public static Game game = null;
 
+    private TextField firstField = new TextField();
+    private TextField secondField = new TextField();
+    private TextField thirdField = new TextField();
     private Random random;
     private Map<String, Image> image;
-    private List<Cell> cells;
-    private List<Character> characters;
+    private ArrayList<Cell> cells;
+    private ArrayList<Character> characters;
     private boolean continueOption;
 
     public static Game getInstance() {
@@ -44,7 +46,7 @@ public class Game extends Application {
         this.continueOption = continueOption;
     }
 
-    public boolean carregaDados() {
+    public boolean loadData() {
         Path path = Paths.get(".AMOUNTS.txt");
         try (BufferedReader reader = Files.newBufferedReader(path, Charset.forName("utf8"))) {
             String line = null;
@@ -93,7 +95,7 @@ public class Game extends Application {
         return cells.get(pos);
     }
 
-    private void loadImagens() {
+    private void loadImages() {
         image = new HashMap<>();
 
         Image aux = new Image("file:Images/dumb.jpeg");
@@ -125,13 +127,8 @@ public class Game extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        if (!continueOption) {
-            carregaDados();
-        }
-
         primaryStage.setTitle("GAME - Zombie Attack Simulation");
-
-        loadImagens();
+        loadImages();
 
         GridPane tab = new GridPane();
         BackgroundImage bgi = new BackgroundImage(new Image("file:Images/brown.jpg", 575, 620, false, true),
@@ -158,9 +155,11 @@ public class Game extends Application {
         characters = new ArrayList<>(NLIN * NCOL);
 
         if (continueOption) {
-            readSave(characters, cells);
+            readFile(characters, cells, 0);
             fixAmount();
         } else {
+            loadData();
+
             for (int i = 0; i < SOLDIERAMOUNT; i++) {
                 boolean posOk = false;
                 while (!posOk) {
@@ -224,9 +223,6 @@ public class Game extends Application {
             fixAmount();
         }
 
-        final String IDLE_BUTTON_STYLE = "-fx-background-color: transparent; -fx-text-fill: white;";
-        final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
-
         HashMap<String, Button> buttons = new HashMap();
         buttons.put("NEXT STEP", new Button("NEXT STEP"));
         buttons.put("NEXT 10", new Button("NEXT 10"));
@@ -239,15 +235,14 @@ public class Game extends Application {
             value.setFont(Font.font("Rockwell", 14));
             value.setCursor(Cursor.HAND);
             value.getCursor();
-            value.setStyle(IDLE_BUTTON_STYLE);
+            value.setStyle(Menu.IDLE_BUTTON_STYLE);
             value.setAlignment(Pos.TOP_CENTER);
-            value.setOnMouseEntered(e -> value.setStyle(HOVERED_BUTTON_STYLE));
-            value.setOnMouseExited(e -> value.setStyle(IDLE_BUTTON_STYLE));
+            value.setOnMouseEntered(e -> value.setStyle(Menu.HOVERED_BUTTON_STYLE));
+            value.setOnMouseExited(e -> value.setStyle(Menu.IDLE_BUTTON_STYLE));
         });
 
         TextField score = new TextField();
-        score.setStyle(
-                "-fx-text-fill: yellow; -fx-font-weight: bold; -fx-background-color: transparent; -fx-border-color: transparent;");
+        score.setStyle(Menu.TEXT_PATTERN_2);
         score.setFont(Font.font("Rockwell", 14));
         score.setEditable(false);
         score.setAlignment(Pos.TOP_RIGHT);
@@ -258,18 +253,20 @@ public class Game extends Application {
 
         VBox vb = new VBox();
         vb.setBackground(new Background(bgi));
+        vb.setAlignment(Pos.CENTER);
+        vb.setPadding(new Insets(25, 25, 25, 25));
         HBox hb = new HBox();
         hb.setBackground(new Background(bgi));
-        vb.setAlignment(Pos.CENTER);
         hb.setAlignment(Pos.CENTER);
-        vb.setPadding(new Insets(25, 25, 25, 25));
         hb.setSpacing(10);
+
         hb.getChildren().add(buttons.get("BACK"));
         hb.getChildren().add(buttons.get("SAVE"));
         hb.getChildren().add(buttons.get("RESET"));
         hb.getChildren().add(buttons.get("NEXT STEP"));
         hb.getChildren().add(buttons.get("NEXT 10"));
         hb.getChildren().add(buttons.get("NEXT 100"));
+
         hb.getChildren().add(score);
         vb.getChildren().add(hb);
         vb.getChildren().add(tab);
@@ -279,35 +276,27 @@ public class Game extends Application {
         grid.setAlignment(Pos.CENTER);
         vb.getChildren().add(grid);
 
-        TextField firstField = new TextField();
-        firstField.setStyle("-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: transparent;");
-        firstField.setFont(Font.font("Rockwell", 16));
+        firstField.setStyle(Menu.TEXT_PATTERN_1);
         firstField.setEditable(false);
         firstField.setMinSize(850, 30);
-
-        TextField secondField = new TextField();
-        secondField.setStyle("-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: transparent;");
-        secondField.setFont(Font.font("Rockwell", 16));
+        secondField.setStyle(Menu.TEXT_PATTERN_1);
         secondField.setEditable(false);
         secondField.setMinSize(850, 30);
-
-        TextField thirdField = new TextField();
-        thirdField.setStyle("-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: transparent;");
-        thirdField.setFont(Font.font("Rockwell", 16));
+        thirdField.setStyle(Menu.TEXT_PATTERN_1);
         thirdField.setEditable(false);
         thirdField.setMinSize(850, 30);
 
-        textUpdate(firstField, secondField, thirdField);
+        textUpdate();
         grid.add(firstField, 75, 10);
         grid.add(secondField, 75, 20);
         grid.add(thirdField, 75, 30);
 
         buttons.get("BACK").setOnAction(e -> primaryStage.close());
-        buttons.get("SAVE").setOnAction(e -> createTxtSave());
-        buttons.get("RESET").setOnAction(e -> setRefresh(characters, cells, firstField, secondField, thirdField));
-        buttons.get("NEXT STEP").setOnAction(e -> nextStep(firstField, secondField, thirdField));
-        buttons.get("NEXT 10").setOnAction(e -> nextNSteps(firstField, secondField, thirdField, 10));
-        buttons.get("NEXT 100").setOnAction(e -> nextNSteps(firstField, secondField, thirdField, 100));
+        buttons.get("SAVE").setOnAction(e -> createSave());
+        buttons.get("RESET").setOnAction(e -> readFile(characters, cells, 1));
+        buttons.get("NEXT STEP").setOnAction(e -> nextStep());
+        buttons.get("NEXT 10").setOnAction(e -> nextNSteps(10));
+        buttons.get("NEXT 100").setOnAction(e -> nextNSteps(100));
 
         Scene scene = new Scene(vb, 1300, 750);
         primaryStage.initStyle(StageStyle.DECORATED);
@@ -443,14 +432,14 @@ public class Game extends Application {
         return result + "";
     }
 
-    public void nextStep(TextField firstField, TextField secondField, TextField thirdField) {
+    public void nextStep() {
         characters.forEach(p -> {
             p.nextPos();
             p.stateStatus();
             p.action();
         });
 
-        textUpdate(firstField, secondField, thirdField);
+        textUpdate();
 
         if (pH().equalsIgnoreCase("0" + "")) {
             Alert msgBox = new Alert(AlertType.INFORMATION);
@@ -469,13 +458,13 @@ public class Game extends Application {
         }
     }
 
-    public void nextNSteps(TextField firstField, TextField secondField, TextField thirdField, int n) {
+    public void nextNSteps(int n) {
         for (int i = 0; i < n; i++) {
-            nextStep(firstField, secondField, thirdField);
+            nextStep();
         }
     }
 
-    public boolean createTxtSave() {
+    public boolean createSave() {
         FileWriter writer;
         try {
             writer = new FileWriter(".SAVE.txt");
@@ -485,11 +474,10 @@ public class Game extends Application {
                 if (separate != 0 && separate % 16 == 0) {
                     aux.append("\n");
                 }
-
                 if (cel.getCharacter() == null) {
                     aux.append("....." + " ");
                 } else {
-                    aux.append(cel.getCharacter().getId()+cel.getCharacter().getEnergy()+" ");
+                    aux.append(cel.getCharacter().getId() + cel.getCharacter().getEnergy() + " ");
                 }
                 separate++;
             }
@@ -502,8 +490,18 @@ public class Game extends Application {
         return true;
     }
 
-    public boolean readSave(List<Character> characters, List<Cell> cells) {
-        Path path = Paths.get(".SAVE.txt");
+    public boolean readFile(ArrayList<Character> characters, ArrayList<Cell> cells, int type) {
+        characters.clear();
+        for (Cell c : cells) {
+            c.setCharacter(null);
+        }
+
+        Path path;
+        if(type==0)
+            path = Paths.get(".SAVE.txt");
+        else
+            path = Paths.get(".RESET.txt");
+
         try (BufferedReader reader = Files.newBufferedReader(path, Charset.forName("utf8"))) {
             String line = null;
             line = reader.readLine();
@@ -511,19 +509,20 @@ public class Game extends Application {
             while ((line = reader.readLine()) != null) {
                 int col = 0;
                 String[] data = line.split(" ");
-                for(int i=0; i<16; i++){
+                for (int i = 0; i < 16; i++) {
                     setCharacter(data[i], lin, col, characters);
                     col++;
                 }
                 lin++;
             }
+            textUpdate();
         } catch (IOException x) {
             System.err.format("I/O error: %s%n", x);
         }
         return true;
     }
 
-    public void setCharacter(String data, int lin, int col, List characters) {
+    public void setCharacter(String data, int lin, int col, ArrayList<Character> characters) {
         if (data.substring(0, 2).equals("DC")) {
             characters.add(new Dumb(data.substring(2), lin, col, "DC"));
         }
@@ -554,7 +553,9 @@ public class Game extends Application {
         if (data.substring(0, 2).equals("RZ")) {
             characters.add(new Runner(data.substring(2), lin, col, "RZ"));
         }
-        if (data.equals(".....")) {};
+        if (data.equals(".....")) {
+        }
+        ;
     }
 
     public void fixAmount() {
@@ -596,7 +597,7 @@ public class Game extends Application {
                 if (cel.getCharacter() == null) {
                     aux.append("....." + " ");
                 } else {
-                    aux.append(cel.getCharacter().getId()+cel.getCharacter().getEnergy()+" ");
+                    aux.append(cel.getCharacter().getId() + cel.getCharacter().getEnergy() + " ");
                 }
                 separate++;
             }
@@ -609,44 +610,16 @@ public class Game extends Application {
         return true;
     }
 
-    public boolean setRefresh(List<Character> characters, List<Cell> cells, TextField firstField, TextField secondField,
-            TextField thirdField) {
-        characters.clear();
-        for (Cell c : cells) {
-            c.setCharacter(null);
-        }
-
-        Path path = Paths.get(".RESET.txt");
-        try (BufferedReader reader = Files.newBufferedReader(path, Charset.forName("utf8"))) {
-            String line = null;
-            line = reader.readLine();
-            int lin = 0;
-            while ((line = reader.readLine()) != null) {
-                int col = 0;
-                String[] data = line.split(" ");
-                for(int i=0; i<16; i++){
-                    setCharacter(data[i], lin, col, characters);
-                    col++;
-                }
-                lin++;
-            }
-            textUpdate(firstField, secondField, thirdField);
-        } catch (IOException x) {
-            System.err.format("I/O error: %s%n", x);
-        }
-        return true;
-    }
-
-    public void textUpdate(TextField firstField, TextField secondField,TextField thirdField){
+    public void textUpdate() {
         firstField.setText("Dumbs alive: " + dumbsAlive() + "                Healers alive: " + healersAlive()
-                    + "             Soldiers alive: " + soldiersAlive() + "               Zombies alive: "
-                    + zombiesAlive() + "           Runners alive: " + runnersAlive());
+                + "             Soldiers alive: " + soldiersAlive() + "               Zombies alive: "
+                + zombiesAlive() + "           Runners alive: " + runnersAlive());
         secondField.setText("Dumbs infected: " + dumbsInf() + "          Healers infected: " + healersInf()
-                    + "         Sodiers infected: " + soldiersInf() + "        Zombies dead: " + zombiesDead()
-                    + "           Runners dead: " + runnersDead());
+                + "        Sodiers infected: " + soldiersInf() + "         Zombies dead: " + zombiesDead()
+                + "            Runners dead: " + runnersDead());
         thirdField.setText("Dumbs dead: " + dumbsDead() + "                Healer dead: " + healersDead()
-                    + "              Soldiers dead: " + soldiersDead() + "              %H:        " + pH() + "%"
-                    + "               %Z:        " + pZ() + "%");
+                + "              Soldiers dead: " + soldiersDead() + "              %H:        " + pH() + "%"
+                + "               %Z:        " + pZ() + "%");
     }
 
     public static void main(String[] args) {

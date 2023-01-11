@@ -12,6 +12,12 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 
 public class Menu extends Application {
+
+    public static final String IDLE_BUTTON_STYLE = "-fx-background-color: transparent; -fx-text-fill: white;";
+    public static final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
+    public static final String TEXT_PATTERN_1 = "-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: transparent; -fx-font-size: 16; -fx-font-family:Rockwell;";
+    public static final String TEXT_PATTERN_2 = "-fx-text-fill: yellow; -fx-font-weight: bold; -fx-background-color: transparent; -fx-border-color: transparent;";
+
     public void start(Stage stage) {
         GridPane grid = new GridPane();
         GridPane bgrd = new GridPane();

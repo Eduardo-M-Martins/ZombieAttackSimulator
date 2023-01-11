@@ -24,13 +24,13 @@ public class Cell extends javafx.scene.control.Button {
                 image = "Dead";
             }
             ImageView iVaux = new ImageView(Game.getInstance().getImage(image));
-            iVaux.setFitWidth(Game.CELL_WIDTH + 10);
-            iVaux.setFitHeight(Game.CELL_HEIGHT + 10);
+            iVaux.setFitWidth(Game.CELL_SIDE);
+            iVaux.setFitHeight(Game.CELL_SIDE);
             setGraphic(iVaux);
         } else {
             ImageView iVaux = new ImageView(Game.getInstance().getImage("Grass"));
-            iVaux.setFitWidth(Game.CELL_WIDTH + 10);
-            iVaux.setFitHeight(Game.CELL_HEIGHT + 10);
+            iVaux.setFitWidth(Game.CELL_SIDE);
+            iVaux.setFitHeight(Game.CELL_SIDE);
             setGraphic(iVaux);
             BackgroundImage bgi = new BackgroundImage(new Image("file:Images/grass.jpeg", 25, 25, false, true),
                     BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
