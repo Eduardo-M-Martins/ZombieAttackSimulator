@@ -219,7 +219,7 @@ public class Game extends Application {
                     }
                 }
             }
-            crateRefresh();
+            createFile(1);
             fixAmount();
         }
 
@@ -292,7 +292,7 @@ public class Game extends Application {
         grid.add(thirdField, 75, 30);
 
         buttons.get("BACK").setOnAction(e -> primaryStage.close());
-        buttons.get("SAVE").setOnAction(e -> createSave());
+        buttons.get("SAVE").setOnAction(e -> createFile(0));
         buttons.get("RESET").setOnAction(e -> readFile(characters, cells, 1));
         buttons.get("NEXT STEP").setOnAction(e -> nextStep());
         buttons.get("NEXT 10").setOnAction(e -> nextNSteps(10));
@@ -464,12 +464,16 @@ public class Game extends Application {
         }
     }
 
-    public boolean createSave() {
+    public boolean createFile(int type) {
         FileWriter writer;
+        StringBuilder aux = new StringBuilder("\n");
+        int separate = 0;
         try {
-            writer = new FileWriter(".SAVE.txt");
-            StringBuilder aux = new StringBuilder("\n");
-            int separate = 0;
+            if(type==0)
+                writer = new FileWriter(".SAVE.txt");
+            else
+            writer = new FileWriter(".RESET.txt");
+    
             for (Cell cel : cells) {
                 if (separate != 0 && separate % 16 == 0) {
                     aux.append("\n");
@@ -581,33 +585,6 @@ public class Game extends Application {
                 RUNNERAMOUNT++;
             }
         }
-    }
-
-    public boolean crateRefresh() {
-        FileWriter writer;
-        try {
-            writer = new FileWriter(".RESET.txt");
-            StringBuilder aux = new StringBuilder("\n");
-            int separate = 0;
-            for (Cell cel : cells) {
-                if (separate != 0 && separate % 16 == 0) {
-                    aux.append("\n");
-                }
-
-                if (cel.getCharacter() == null) {
-                    aux.append("....." + " ");
-                } else {
-                    aux.append(cel.getCharacter().getId() + cel.getCharacter().getEnergy() + " ");
-                }
-                separate++;
-            }
-            writer.append(aux);
-            writer.flush();
-            writer.close();
-        } catch (IOException x) {
-            System.err.format("I/O error: %s%n", x);
-        }
-        return true;
     }
 
     public void textUpdate() {
