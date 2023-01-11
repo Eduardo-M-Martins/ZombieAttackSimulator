@@ -1,17 +1,10 @@
 package poo;
 
 public class Dumb extends Character {
-    private int attackNumber;
-
-    public Dumb(int line, int column, int attackNumber, String id) {
-        super(100, "Dumb", line, column, Enume.DUMB, id);
-        this.attackNumber = attackNumber;
-    }
-
-    public Dumb(int line, int column, int attackNumber, String id, String status) {
-        super(100, "Dead", line, column, Enume.DUMB, id);
-        this.attackNumber = attackNumber;
-        super.setImage(status);
+    public Dumb(String energy, int line, int column, String id) {
+        super(Integer.parseInt(energy), "Dumb", line, column, Enume.DUMB, id);
+        if(Integer.parseInt(energy) <= 0)
+            super.setImage("Dead");
     }
 
     @Override
@@ -21,6 +14,7 @@ public class Dumb extends Character {
         }
         super.infect();
         this.setImage("DumbInf");
+        this.setId("DI");
         this.getCell().setCharacterImage();
     }
 
@@ -48,10 +42,7 @@ public class Dumb extends Character {
                         if (p != null) {
                             if (p.getEnume() == Enume.RUNNER || p.getEnume() == Enume.ZOMBIE) {
                                 if (this.isAlive()) {
-                                    if (this.attackNumber > 0){
-                                        p.decEnergy(45);
-                                        attackNumber--;
-                                    }
+                                    p.decEnergy(20);
                                 }
                             }
                         }
@@ -69,7 +60,6 @@ public class Dumb extends Character {
 
         if (this.getEnergy() <= 0) {
             this.setImage("Dead");
-            this.setId("BM");
             this.getCell().setCharacterImage();
         }
     }

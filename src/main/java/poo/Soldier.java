@@ -1,13 +1,10 @@
 package poo;
 
 public class Soldier extends Character {
-    public Soldier(int line, int column, String id) {
-        super(100, "Soldier", line, column, Enume.SOLDIER, id);
-    }
-
-    public Soldier(int line, int column, String id, String status) {
-        super(100, "Dead", line, column, Enume.SOLDIER, id);
-        super.setImage(status);
+    public Soldier(String energy, int line, int column, String id) {
+        super(Integer.parseInt(energy), "Soldier", line, column, Enume.SOLDIER, id);
+        if(Integer.parseInt(energy) <= 0)
+            super.setImage("Dead");
     }
 
     @Override
@@ -17,6 +14,7 @@ public class Soldier extends Character {
         }
         super.infect();
         this.setImage("SoldierInf");
+        this.setId("SI");
         this.getCell().setCharacterImage();
     }
 
@@ -83,7 +81,6 @@ public class Soldier extends Character {
         }
         if (this.getEnergy() <= 0) {
             this.setImage("Dead");
-            this.setId("SM");
             this.getCell().setCharacterImage();
         }
     }

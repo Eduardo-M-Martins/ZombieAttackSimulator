@@ -160,16 +160,14 @@ public class Game extends Application {
         if (continueOption) {
             readSave(characters, cells);
             fixAmount();
-        }
-
-        if (!continueOption) {
+        } else {
             for (int i = 0; i < SOLDIERAMOUNT; i++) {
                 boolean posOk = false;
                 while (!posOk) {
                     int lin = random.nextInt(NLIN);
                     int col = random.nextInt(NCOL);
                     if (this.getCelula(lin, col).getCharacter() == null) {
-                        characters.add(new Soldier(lin, col, "SV"));
+                        characters.add(new Soldier("100", lin, col, "SC"));
                         posOk = true;
                     }
                 }
@@ -181,7 +179,7 @@ public class Game extends Application {
                     int lin = random.nextInt(NLIN);
                     int col = random.nextInt(NCOL);
                     if (this.getCelula(lin, col).getCharacter() == null) {
-                        characters.add(new Healer(lin, col, "CV"));
+                        characters.add(new Healer("100", lin, col, "HC"));
                         posOk = true;
                     }
                 }
@@ -193,7 +191,7 @@ public class Game extends Application {
                     int lin = random.nextInt(NLIN);
                     int col = random.nextInt(NCOL);
                     if (this.getCelula(lin, col).getCharacter() == null) {
-                        characters.add(new Zombie(lin, col, "ZV"));
+                        characters.add(new Zombie("150", lin, col, "NZ"));
                         posOk = true;
                     }
                 }
@@ -205,7 +203,7 @@ public class Game extends Application {
                     int lin = random.nextInt(NLIN);
                     int col = random.nextInt(NCOL);
                     if (this.getCelula(lin, col).getCharacter() == null) {
-                        characters.add(new Runner(lin, col, "RV"));
+                        characters.add(new Runner("100", lin, col, "RZ"));
                         posOk = true;
                     }
                 }
@@ -217,7 +215,7 @@ public class Game extends Application {
                     int lin = random.nextInt(NLIN);
                     int col = random.nextInt(NCOL);
                     if (this.getCelula(lin, col).getCharacter() == null) {
-                        characters.add(new Dumb(lin, col, 2, "BV"));
+                        characters.add(new Dumb("100", lin, col, "DC"));
                         posOk = true;
                     }
                 }
@@ -261,7 +259,6 @@ public class Game extends Application {
         VBox vb = new VBox();
         vb.setBackground(new Background(bgi));
         HBox hb = new HBox();
-
         hb.setBackground(new Background(bgi));
         vb.setAlignment(Pos.CENTER);
         hb.setAlignment(Pos.CENTER);
@@ -287,33 +284,26 @@ public class Game extends Application {
         firstField.setFont(Font.font("Rockwell", 16));
         firstField.setEditable(false);
         firstField.setMinSize(850, 30);
-        firstField.setText("Dumbs alive: " + dumbsAlive() + "                Healers alive: " + healersAlive()
-                + "             Soldiers alive: " + soldiersAlive() + "               Zombies alive: " + zombiesAlive()
-                + "           Runner alive: " + runnersAlive());
-        grid.add(firstField, 75, 10);
 
         TextField secondField = new TextField();
         secondField.setStyle("-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: transparent;");
         secondField.setFont(Font.font("Rockwell", 16));
         secondField.setEditable(false);
         secondField.setMinSize(850, 30);
-        secondField.setText("Dumbs infected: " + dumbsInf() + "          Healer infected: " + healersInf()
-                + "         Soldiers infected: " + soldiersInf() + "        Zombies dead: " + zombiesDead()
-                + "           Runners dead: " + runnersDead());
-        grid.add(secondField, 75, 20);
 
         TextField thirdField = new TextField();
         thirdField.setStyle("-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: transparent;");
         thirdField.setFont(Font.font("Rockwell", 16));
         thirdField.setEditable(false);
         thirdField.setMinSize(850, 30);
-        thirdField.setText("Dumbs dead: " + dumbsDead() + "                Healer dead: " + healersDead()
-                + "              Soldiers dead: " + soldiersDead() + "              %H:        " + pH() + "%"
-                + "               %Z:        " + pZ() + "%");
+
+        textUpdate(firstField, secondField, thirdField);
+        grid.add(firstField, 75, 10);
+        grid.add(secondField, 75, 20);
         grid.add(thirdField, 75, 30);
 
         buttons.get("BACK").setOnAction(e -> primaryStage.close());
-        buttons.get("SAVE").setOnAction(e -> geraTxtSave());
+        buttons.get("SAVE").setOnAction(e -> createTxtSave());
         buttons.get("RESET").setOnAction(e -> setRefresh(characters, cells, firstField, secondField, thirdField));
         buttons.get("NEXT STEP").setOnAction(e -> nextStep(firstField, secondField, thirdField));
         buttons.get("NEXT 10").setOnAction(e -> nextNSteps(firstField, secondField, thirdField, 10));
@@ -460,15 +450,7 @@ public class Game extends Application {
             p.action();
         });
 
-        firstField.setText("Dumbs alive: " + dumbsAlive() + "                Healers alive: " + healersAlive()
-                + "             Soldiers alive: " + soldiersAlive() + "               Zombies alive: " + zombiesAlive()
-                + "           Runners alive: " + runnersAlive());
-        secondField.setText("Dumbs infected: " + dumbsInf() + "          Healers infected: " + healersInf()
-                + "         Sodiers infected: " + soldiersInf() + "        Zombies dead: " + zombiesDead()
-                + "           Runners dead: " + runnersDead());
-        thirdField.setText("Dumbs dead: " + dumbsDead() + "                Healer dead: " + healersDead()
-                + "              Soldiers dead: " + soldiersDead() + "              %H:        " + pH() + "%"
-                + "               %Z:        " + pZ() + "%");
+        textUpdate(firstField, secondField, thirdField);
 
         if (pH().equalsIgnoreCase("0" + "")) {
             Alert msgBox = new Alert(AlertType.INFORMATION);
@@ -493,7 +475,7 @@ public class Game extends Application {
         }
     }
 
-    public boolean geraTxtSave() {
+    public boolean createTxtSave() {
         FileWriter writer;
         try {
             writer = new FileWriter(".SAVE.txt");
@@ -505,9 +487,9 @@ public class Game extends Application {
                 }
 
                 if (cel.getCharacter() == null) {
-                    aux.append("GG" + " ");
+                    aux.append("....." + " ");
                 } else {
-                    aux.append(cel.getCharacter().getId() + " ");
+                    aux.append(cel.getCharacter().getId()+cel.getCharacter().getEnergy()+" ");
                 }
                 separate++;
             }
@@ -529,38 +511,10 @@ public class Game extends Application {
             while ((line = reader.readLine()) != null) {
                 int col = 0;
                 String[] data = line.split(" ");
-                setCharacter(data[0], lin, col, characters);
-                col++;
-                setCharacter(data[1], lin, col, characters);
-                col++;
-                setCharacter(data[2], lin, col, characters);
-                col++;
-                setCharacter(data[3], lin, col, characters);
-                col++;
-                setCharacter(data[4], lin, col, characters);
-                col++;
-                setCharacter(data[5], lin, col, characters);
-                col++;
-                setCharacter(data[6], lin, col, characters);
-                col++;
-                setCharacter(data[7], lin, col, characters);
-                col++;
-                setCharacter(data[8], lin, col, characters);
-                col++;
-                setCharacter(data[9], lin, col, characters);
-                col++;
-                setCharacter(data[10], lin, col, characters);
-                col++;
-                setCharacter(data[11], lin, col, characters);
-                col++;
-                setCharacter(data[12], lin, col, characters);
-                col++;
-                setCharacter(data[13], lin, col, characters);
-                col++;
-                setCharacter(data[14], lin, col, characters);
-                col++;
-                setCharacter(data[15], lin, col, characters);
-                col++;
+                for(int i=0; i<16; i++){
+                    setCharacter(data[i], lin, col, characters);
+                    col++;
+                }
                 lin++;
             }
         } catch (IOException x) {
@@ -570,54 +524,37 @@ public class Game extends Application {
     }
 
     public void setCharacter(String data, int lin, int col, List characters) {
-        if (data.equals("BV")) {
-            characters.add(new Dumb(lin, col, 2, "BV"));
+        if (data.substring(0, 2).equals("DC")) {
+            characters.add(new Dumb(data.substring(2), lin, col, "DC"));
         }
-        if (data.equals("BM")) {
-            Dumb aux = new Dumb(lin, col, 0, "BM", "Dead");
-            aux.kill();
-            aux.setImage("Dead");
+        if (data.substring(0, 2).equals("DI")) {
+            Dumb aux = new Dumb(data.substring(2), lin, col, "DI");
+            aux.setImage("DumbInf");
             characters.add(aux);
         }
-        if (data.equals("CV")) {
-            characters.add(new Healer(lin, col, "CV"));
+        if (data.substring(0, 2).equals("HC")) {
+            characters.add(new Healer(data.substring(2), lin, col, "HC"));
         }
-        if (data.equals("CM")) {
-            Healer aux = new Healer(lin, col, "CM", "Dead");
-            aux.kill();
-            aux.setImage("Dead");
+        if (data.substring(0, 2).substring(0, 2).equals("HI")) {
+            Healer aux = new Healer(data.substring(2), lin, col, "HI");
+            aux.setImage("HealerInf");
             characters.add(aux);
         }
-        if (data.equals("SV")) {
-            characters.add(new Soldier(lin, col, "SV"));
+        if (data.substring(0, 2).equals("SC")) {
+            characters.add(new Soldier(data.substring(2), lin, col, "SC"));
         }
-        if (data.equals("SM")) {
-            Soldier aux = new Soldier(lin, col, "SM", "Dead");
-            aux.kill();
-            aux.setImage("Dead");
+        if (data.substring(0, 2).equals("SI")) {
+            Soldier aux = new Soldier(data.substring(2), lin, col, "SI");
+            aux.setImage("SoldierInf");
             characters.add(aux);
         }
-        if (data.equals("ZV")) {
-            characters.add(new Zombie(lin, col, "ZV"));
+        if (data.substring(0, 2).equals("NZ")) {
+            characters.add(new Zombie(data.substring(2), lin, col, "NZ"));
         }
-        if (data.equals("ZM")) {
-            Zombie aux = new Zombie(lin, col, "ZM", "Dead");
-            aux.kill();
-            aux.setImage("Dead");
-            characters.add(aux);
+        if (data.substring(0, 2).equals("RZ")) {
+            characters.add(new Runner(data.substring(2), lin, col, "RZ"));
         }
-        if (data.equals("RV")) {
-            characters.add(new Runner(lin, col, "RV"));
-        }
-        if (data.equals("RM")) {
-            Runner aux = new Runner(lin, col, "RM", "Dead");
-            aux.kill();
-            aux.setImage("Dead");
-            characters.add(aux);
-        }
-        if (data.equals("GG")) {
-        }
-        ;
+        if (data.equals(".....")) {};
     }
 
     public void fixAmount() {
@@ -657,9 +594,9 @@ public class Game extends Application {
                 }
 
                 if (cel.getCharacter() == null) {
-                    aux.append("GG" + " ");
+                    aux.append("....." + " ");
                 } else {
-                    aux.append(cel.getCharacter().getId() + " ");
+                    aux.append(cel.getCharacter().getId()+cel.getCharacter().getEnergy()+" ");
                 }
                 separate++;
             }
@@ -686,55 +623,30 @@ public class Game extends Application {
             int lin = 0;
             while ((line = reader.readLine()) != null) {
                 int col = 0;
-                String[] dados = line.split(" ");
-                setCharacter(dados[0], lin, col, characters);
-                col++;
-                setCharacter(dados[1], lin, col, characters);
-                col++;
-                setCharacter(dados[2], lin, col, characters);
-                col++;
-                setCharacter(dados[3], lin, col, characters);
-                col++;
-                setCharacter(dados[4], lin, col, characters);
-                col++;
-                setCharacter(dados[5], lin, col, characters);
-                col++;
-                setCharacter(dados[6], lin, col, characters);
-                col++;
-                setCharacter(dados[7], lin, col, characters);
-                col++;
-                setCharacter(dados[8], lin, col, characters);
-                col++;
-                setCharacter(dados[9], lin, col, characters);
-                col++;
-                setCharacter(dados[10], lin, col, characters);
-                col++;
-                setCharacter(dados[11], lin, col, characters);
-                col++;
-                setCharacter(dados[12], lin, col, characters);
-                col++;
-                setCharacter(dados[13], lin, col, characters);
-                col++;
-                setCharacter(dados[14], lin, col, characters);
-                col++;
-                setCharacter(dados[15], lin, col, characters);
-                col++;
+                String[] data = line.split(" ");
+                for(int i=0; i<16; i++){
+                    setCharacter(data[i], lin, col, characters);
+                    col++;
+                }
                 lin++;
-
-                firstField.setText("Dumbs alive: " + dumbsAlive() + "                Healers alive: " + healersAlive()
-                        + "             Soldiers alive: " + soldiersAlive() + "               Zombies alive: "
-                        + zombiesAlive() + "           Runners alive: " + runnersAlive());
-                secondField.setText("Dumbs infected: " + dumbsInf() + "          Healers infected: " + healersInf()
-                        + "         Sodiers infected: " + soldiersInf() + "        Zombies dead: " + zombiesDead()
-                        + "           Runners dead: " + runnersDead());
-                thirdField.setText("Dumbs dead: " + dumbsDead() + "                Healer dead: " + healersDead()
-                        + "              Soldiers dead: " + soldiersDead() + "              %H:        " + pH() + "%"
-                        + "               %Z:        " + pZ() + "%");
             }
+            textUpdate(firstField, secondField, thirdField);
         } catch (IOException x) {
             System.err.format("I/O error: %s%n", x);
         }
         return true;
+    }
+
+    public void textUpdate(TextField firstField, TextField secondField,TextField thirdField){
+        firstField.setText("Dumbs alive: " + dumbsAlive() + "                Healers alive: " + healersAlive()
+                    + "             Soldiers alive: " + soldiersAlive() + "               Zombies alive: "
+                    + zombiesAlive() + "           Runners alive: " + runnersAlive());
+        secondField.setText("Dumbs infected: " + dumbsInf() + "          Healers infected: " + healersInf()
+                    + "         Sodiers infected: " + soldiersInf() + "        Zombies dead: " + zombiesDead()
+                    + "           Runners dead: " + runnersDead());
+        thirdField.setText("Dumbs dead: " + dumbsDead() + "                Healer dead: " + healersDead()
+                    + "              Soldiers dead: " + soldiersDead() + "              %H:        " + pH() + "%"
+                    + "               %Z:        " + pZ() + "%");
     }
 
     public static void main(String[] args) {

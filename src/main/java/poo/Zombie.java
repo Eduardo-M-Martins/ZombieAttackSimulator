@@ -1,13 +1,10 @@
 package poo;
 
 public class Zombie extends Character {
-    public Zombie(int line, int column, String id) {
-        super(150, "Zombie", line, column, Enume.ZOMBIE, id);
-    }
-
-    public Zombie(int line, int column, String id, String status) {
-        super(150, "Dead", line, column, Enume.ZOMBIE, id);
-        super.setImage(status);
+    public Zombie(String energy, int line, int column, String id) {
+        super(Integer.parseInt(energy), "Zombie", line, column, Enume.ZOMBIE, id);
+        if(Integer.parseInt(energy) <= 0)
+            super.setImage("Dead");
     }
 
     @Override
@@ -59,7 +56,6 @@ public class Zombie extends Character {
     public void stateStatus() {
         if (!this.isAlive()) {
             this.setImage("Dead");
-            this.setId("ZM");
             this.getCell().setCharacterImage();
         }
     }

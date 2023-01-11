@@ -1,13 +1,11 @@
 package poo;
 
 public class Healer extends Character {
-    public Healer(int line, int column, String id) {
-        super(100, "Healer", line, column, Enume.HEALER, id);
-    }
 
-    public Healer(int line, int column, String id, String status) {
-        super(100, "Dead", line, column, Enume.HEALER, id);
-        super.setImage(status);
+    public Healer(String energy, int line, int column, String id) {
+        super(Integer.parseInt(energy), "Healer", line, column, Enume.HEALER, id);
+        if(Integer.parseInt(energy) <= 0)
+            super.setImage("Dead");
     }
 
     @Override
@@ -17,6 +15,7 @@ public class Healer extends Character {
         }
         super.infect();
         this.setImage("HealerInf");
+        this.setId("HI");
         this.getCell().setCharacterImage();
     }
 
@@ -69,14 +68,16 @@ public class Healer extends Character {
                                     p.cure();
                                 if (p.getEnume() == Enume.DUMB && p.isAlive()) {
                                     p.setImage("Dumb");
+                                    p.setId("DC");
                                     p.getCell().setCharacterImage();
                                 }
                                 if (p.getEnume() == Enume.HEALER && p.isAlive()) {
                                     p.setImage("Healer");
+                                    p.setId("HC");
                                     p.getCell().setCharacterImage();
                                 }
                                 if (p.getEnume() == Enume.SOLDIER && p.isAlive()) {
-                                    p.setImage("Soldier");
+                                    p.setId("SC");
                                     p.getCell().setCharacterImage();
                                 }
                             }
@@ -94,7 +95,6 @@ public class Healer extends Character {
         }
         if (this.getEnergy() <= 0) {
             this.setImage("Dead");
-            this.setId("CM");
             this.getCell().setCharacterImage();
         }
     }

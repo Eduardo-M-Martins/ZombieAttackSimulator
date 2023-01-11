@@ -1,13 +1,10 @@
 package poo;
 
 public class Runner extends Character {
-    public Runner(int line, int column, String id) {
-        super(100, "Runner", line, column, Enume.RUNNER, id);
-    }
-
-    public Runner(int line, int column, String id, String status) {
-        super(100, "Dead", line, column, Enume.RUNNER, id);
-        super.setImage(status);
+    public Runner(String energy, int line, int column, String id) {
+        super(Integer.parseInt(energy), "Runner", line, column, Enume.RUNNER, id);
+        if(Integer.parseInt(energy) <= 0)
+            super.setImage("Dead");
     }
 
     @Override
@@ -59,7 +56,6 @@ public class Runner extends Character {
     public void stateStatus() {
         if (!this.isAlive()) {
             this.setImage("Dead");
-            this.setId("RM");
             this.getCell().setCharacterImage();
         }
     }
