@@ -248,7 +248,8 @@ public class Game extends Application {
         });
 
         TextField score = new TextField();
-        score.setStyle("-fx-text-fill: yellow; -fx-font-weight: bold; -fx-background-color: transparent; -fx-border-color: transparent;");
+        score.setStyle(
+                "-fx-text-fill: yellow; -fx-font-weight: bold; -fx-background-color: transparent; -fx-border-color: transparent;");
         score.setFont(Font.font("Rockwell", 14));
         score.setEditable(false);
         score.setAlignment(Pos.TOP_RIGHT);
@@ -286,7 +287,9 @@ public class Game extends Application {
         firstField.setFont(Font.font("Rockwell", 16));
         firstField.setEditable(false);
         firstField.setMinSize(850, 30);
-        firstField.setText("Dumbs alive: "+dumbsAlive()+"                Healers alive: " + healersAlive()+"             Soldiers alive: "+soldiersAlive()+"               Zombies alive: " + zombiesAlive()+"           Runner alive: "+runnersAlive());
+        firstField.setText("Dumbs alive: " + dumbsAlive() + "                Healers alive: " + healersAlive()
+                + "             Soldiers alive: " + soldiersAlive() + "               Zombies alive: " + zombiesAlive()
+                + "           Runner alive: " + runnersAlive());
         grid.add(firstField, 75, 10);
 
         TextField secondField = new TextField();
@@ -294,7 +297,9 @@ public class Game extends Application {
         secondField.setFont(Font.font("Rockwell", 16));
         secondField.setEditable(false);
         secondField.setMinSize(850, 30);
-        secondField.setText("Dumbs infected: "+dumbsInf()+"          Healer infected: " + healersInf()+"         Soldiers infected: " + soldiersInf()+"        Zombies dead: " + zombiesDead()+"           Runners dead: "+runnersDead());
+        secondField.setText("Dumbs infected: " + dumbsInf() + "          Healer infected: " + healersInf()
+                + "         Soldiers infected: " + soldiersInf() + "        Zombies dead: " + zombiesDead()
+                + "           Runners dead: " + runnersDead());
         grid.add(secondField, 75, 20);
 
         TextField thirdField = new TextField();
@@ -302,19 +307,17 @@ public class Game extends Application {
         thirdField.setFont(Font.font("Rockwell", 16));
         thirdField.setEditable(false);
         thirdField.setMinSize(850, 30);
-        thirdField.setText("Dumbs dead: "+dumbsDead()+"                Healer dead: "+healersDead()+"              Soldiers dead: "+soldiersDead()+"              %H:        "+pH()+"%"+"               %Z:        "+pZ()+"%");
+        thirdField.setText("Dumbs dead: " + dumbsDead() + "                Healer dead: " + healersDead()
+                + "              Soldiers dead: " + soldiersDead() + "              %H:        " + pH() + "%"
+                + "               %Z:        " + pZ() + "%");
         grid.add(thirdField, 75, 30);
 
         buttons.get("BACK").setOnAction(e -> primaryStage.close());
         buttons.get("SAVE").setOnAction(e -> geraTxtSave());
-        buttons.get("RESET")
-                .setOnAction(e -> setRefresh(characters, cells, firstField, secondField, thirdField));
-        buttons.get("NEXT STEP")
-                .setOnAction(e -> avancaSimulacao(firstField, secondField, thirdField));
-        buttons.get("NEXT 10")
-                .setOnAction(e -> avancaSimulacao10(firstField, secondField, thirdField));
-        buttons.get("NEXT 100")
-                .setOnAction(e -> avancaSimulacao100(firstField, secondField, thirdField));
+        buttons.get("RESET").setOnAction(e -> setRefresh(characters, cells, firstField, secondField, thirdField));
+        buttons.get("NEXT STEP").setOnAction(e -> nextStep(firstField, secondField, thirdField));
+        buttons.get("NEXT 10").setOnAction(e -> nextNSteps(firstField, secondField, thirdField, 10));
+        buttons.get("NEXT 100").setOnAction(e -> nextNSteps(firstField, secondField, thirdField, 100));
 
         Scene scene = new Scene(vb, 1300, 750);
         primaryStage.initStyle(StageStyle.DECORATED);
@@ -450,16 +453,22 @@ public class Game extends Application {
         return result + "";
     }
 
-    public void avancaSimulacao(TextField firstField, TextField secondField, TextField thirdField) {
+    public void nextStep(TextField firstField, TextField secondField, TextField thirdField) {
         characters.forEach(p -> {
             p.nextPos();
             p.stateStatus();
             p.action();
         });
 
-        firstField.setText("Dumbs alive: " + dumbsAlive()+"                Healers alive: " + healersAlive()+"             Soldiers alive: " + soldiersAlive()+"               Zombies alive: " + zombiesAlive()+"           Runners alive: " + runnersAlive());
-        secondField.setText("Dumbs infected: " + dumbsInf()+"          Healers infected: " + healersInf()+"         Sodiers infected: " + soldiersInf()+"        Zombies dead: " + zombiesDead()+"           Runners dead: " + runnersDead());
-        thirdField.setText("Dumbs dead: "+dumbsDead()+"                Healer dead: "+healersDead()+"              Soldiers dead: "+soldiersDead()+"              %H:        "+pH()+"%"+"               %Z:        "+pZ()+"%");
+        firstField.setText("Dumbs alive: " + dumbsAlive() + "                Healers alive: " + healersAlive()
+                + "             Soldiers alive: " + soldiersAlive() + "               Zombies alive: " + zombiesAlive()
+                + "           Runners alive: " + runnersAlive());
+        secondField.setText("Dumbs infected: " + dumbsInf() + "          Healers infected: " + healersInf()
+                + "         Sodiers infected: " + soldiersInf() + "        Zombies dead: " + zombiesDead()
+                + "           Runners dead: " + runnersDead());
+        thirdField.setText("Dumbs dead: " + dumbsDead() + "                Healer dead: " + healersDead()
+                + "              Soldiers dead: " + soldiersDead() + "              %H:        " + pH() + "%"
+                + "               %Z:        " + pZ() + "%");
 
         if (pH().equalsIgnoreCase("0" + "")) {
             Alert msgBox = new Alert(AlertType.INFORMATION);
@@ -478,30 +487,10 @@ public class Game extends Application {
         }
     }
 
-    public void avancaSimulacao10(TextField firstField, TextField secondField, TextField thirdField) {
-        avancaSimulacao(firstField, secondField, thirdField);
-        avancaSimulacao(firstField, secondField, thirdField);
-        avancaSimulacao(firstField, secondField, thirdField);
-        avancaSimulacao(firstField, secondField, thirdField);
-        avancaSimulacao(firstField, secondField, thirdField);
-        avancaSimulacao(firstField, secondField, thirdField);
-        avancaSimulacao(firstField, secondField, thirdField);
-        avancaSimulacao(firstField, secondField, thirdField);
-        avancaSimulacao(firstField, secondField, thirdField);
-        avancaSimulacao(firstField, secondField, thirdField);
-    }
-
-    public void avancaSimulacao100(TextField firstField, TextField secondField, TextField thirdField) {
-        avancaSimulacao10(firstField, secondField, thirdField);
-        avancaSimulacao10(firstField, secondField, thirdField);
-        avancaSimulacao10(firstField, secondField, thirdField);
-        avancaSimulacao10(firstField, secondField, thirdField);
-        avancaSimulacao10(firstField, secondField, thirdField);
-        avancaSimulacao10(firstField, secondField, thirdField);
-        avancaSimulacao10(firstField, secondField, thirdField);
-        avancaSimulacao10(firstField, secondField, thirdField);
-        avancaSimulacao10(firstField, secondField, thirdField);
-        avancaSimulacao10(firstField, secondField, thirdField);
+    public void nextNSteps(TextField firstField, TextField secondField, TextField thirdField, int n) {
+        for (int i = 0; i < n; i++) {
+            nextStep(firstField, secondField, thirdField);
+        }
     }
 
     public boolean geraTxtSave() {
@@ -683,7 +672,8 @@ public class Game extends Application {
         return true;
     }
 
-    public boolean setRefresh(List<Character> characters, List<Cell> cells, TextField firstField, TextField secondField, TextField thirdField) {
+    public boolean setRefresh(List<Character> characters, List<Cell> cells, TextField firstField, TextField secondField,
+            TextField thirdField) {
         characters.clear();
         for (Cell c : cells) {
             c.setCharacter(null);
@@ -731,9 +721,15 @@ public class Game extends Application {
                 col++;
                 lin++;
 
-                firstField.setText("Dumbs alive: " + dumbsAlive()+"                Healers alive: " + healersAlive()+"             Soldiers alive: " + soldiersAlive()+"               Zombies alive: " + zombiesAlive()+"           Runners alive: " + runnersAlive());
-                secondField.setText("Dumbs infected: " + dumbsInf()+"          Healers infected: " + healersInf()+"         Sodiers infected: " + soldiersInf()+"        Zombies dead: " + zombiesDead()+"           Runners dead: " + runnersDead());
-                thirdField.setText("Dumbs dead: "+dumbsDead()+"                Healer dead: "+healersDead()+"              Soldiers dead: "+soldiersDead()+"              %H:        "+pH()+"%"+"               %Z:        "+pZ()+"%");
+                firstField.setText("Dumbs alive: " + dumbsAlive() + "                Healers alive: " + healersAlive()
+                        + "             Soldiers alive: " + soldiersAlive() + "               Zombies alive: "
+                        + zombiesAlive() + "           Runners alive: " + runnersAlive());
+                secondField.setText("Dumbs infected: " + dumbsInf() + "          Healers infected: " + healersInf()
+                        + "         Sodiers infected: " + soldiersInf() + "        Zombies dead: " + zombiesDead()
+                        + "           Runners dead: " + runnersDead());
+                thirdField.setText("Dumbs dead: " + dumbsDead() + "                Healer dead: " + healersDead()
+                        + "              Soldiers dead: " + soldiersDead() + "              %H:        " + pH() + "%"
+                        + "               %Z:        " + pZ() + "%");
             }
         } catch (IOException x) {
             System.err.format("I/O error: %s%n", x);
