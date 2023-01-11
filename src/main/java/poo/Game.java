@@ -248,13 +248,11 @@ public class Game extends Application {
         });
 
         TextField score = new TextField();
-        score.setStyle("-fx-text-fill: yellow; -fx-font-weight: bold");
-        score.setBorder(Border.EMPTY);
-        score.setBackground(Background.EMPTY);
+        score.setStyle("-fx-text-fill: yellow; -fx-font-weight: bold; -fx-background-color: transparent; -fx-border-color: transparent;");
         score.setFont(Font.font("Rockwell", 14));
         score.setEditable(false);
         score.setAlignment(Pos.TOP_RIGHT);
-        score.setMinSize(180, 20);
+        score.setMinSize(180, 30);
         int intpts = ((ZOMBIEAMOUNT * 200) + (RUNNERAMOUNT * 300))
                 - ((DUMBAMOUNT * 50) + (HEALERAMOUNT * 75) + (SOLDIERAMOUNT * 100));
         score.setText("SCORE: " + intpts);
@@ -278,189 +276,45 @@ public class Game extends Application {
         vb.getChildren().add(hb);
         vb.getChildren().add(tab);
 
-        HBox hbt = new HBox();
-        hbt.setBackground(new Background(bgi));
-        VBox v1 = new VBox();
-        v1.setBackground(new Background(bgi));
-        VBox v2 = new VBox();
-        v2.setBackground(new Background(bgi));
-        VBox v3 = new VBox();
-        v3.setBackground(new Background(bgi));
-        VBox v4 = new VBox();
-        v4.setBackground(new Background(bgi));
-        VBox v5 = new VBox();
-        v5.setBackground(new Background(bgi));
+        GridPane grid = new GridPane();
+        grid.setMinWidth(850);
+        grid.setAlignment(Pos.CENTER);
+        vb.getChildren().add(grid);
 
-        vb.getChildren().add(hbt);
-        hbt.getChildren().add(v1);
-        hbt.getChildren().add(v2);
-        hbt.getChildren().add(v3);
-        hbt.getChildren().add(v4);
-        hbt.getChildren().add(v5);
-        hbt.setAlignment(Pos.CENTER);
+        TextField firstField = new TextField();
+        firstField.setStyle("-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: transparent;");
+        firstField.setFont(Font.font("Rockwell", 16));
+        firstField.setEditable(false);
+        firstField.setMinSize(850, 30);
+        firstField.setText("Dumbs alive: "+dumbsAlive()+"                Healers alive: " + healersAlive()+"             Soldiers alive: "+soldiersAlive()+"               Zombies alive: " + zombiesAlive()+"           Runner alive: "+runnersAlive());
+        grid.add(firstField, 75, 10);
 
-        TextField tb1 = new TextField();
-        tb1.setStyle("-fx-text-fill: white;");
-        tb1.setBorder(Border.EMPTY);
-        tb1.setBackground(Background.EMPTY);
-        tb1.setFont(Font.font("Rockwell", 16));
-        tb1.setEditable(false);
-        tb1.setMinSize(180, 30);
-        tb1.setText("       Dumbs alive: " + dumbsAlive());
-        v1.getChildren().add(tb1);
+        TextField secondField = new TextField();
+        secondField.setStyle("-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: transparent;");
+        secondField.setFont(Font.font("Rockwell", 16));
+        secondField.setEditable(false);
+        secondField.setMinSize(850, 30);
+        secondField.setText("Dumbs infected: "+dumbsInf()+"          Healer infected: " + healersInf()+"         Soldiers infected: " + soldiersInf()+"        Zombies dead: " + zombiesDead()+"           Runners dead: "+runnersDead());
+        grid.add(secondField, 75, 20);
 
-        TextField tb2 = new TextField();
-        tb2.setStyle("-fx-text-fill: white;");
-        tb2.setBorder(Border.EMPTY);
-        tb2.setBackground(Background.EMPTY);
-        tb2.setFont(Font.font("Rockwell", 16));
-        tb2.setEditable(false);
-        tb2.setMinSize(180, 30);
-        tb2.setText("       Dumbs infected: " + dumbsInf());
-        v1.getChildren().add(tb2);
-
-        TextField tb3 = new TextField();
-        tb3.setStyle("-fx-text-fill: white;");
-        tb3.setBorder(Border.EMPTY);
-        tb3.setBackground(Background.EMPTY);
-        tb3.setFont(Font.font("Rockwell", 16));
-        tb3.setEditable(false);
-        tb3.setMinSize(180, 30);
-        tb3.setText("       Dumbs dead: " + dumbsDead());
-        v1.getChildren().add(tb3);
-
-        TextField tcur1 = new TextField();
-        tcur1.setStyle("-fx-text-fill: white;");
-        tcur1.setBorder(Border.EMPTY);
-        tcur1.setBackground(Background.EMPTY);
-        tcur1.setFont(Font.font("Rockwell", 16));
-        tcur1.setEditable(false);
-        tcur1.setMinSize(180, 30);
-        tcur1.setText("    Healer alive: " + healersAlive());
-        v2.getChildren().add(tcur1);
-
-        TextField tcur2 = new TextField();
-        tcur2.setStyle("-fx-text-fill: white;");
-        tcur2.setBorder(Border.EMPTY);
-        tcur2.setBackground(Background.EMPTY);
-        tcur2.setFont(Font.font("Rockwell", 16));
-        tcur2.setEditable(false);
-        tcur2.setMinSize(180, 30);
-        tcur2.setText("    Healer infected: " + healersInf());
-        v2.getChildren().add(tcur2);
-
-        TextField tcur3 = new TextField();
-        tcur3.setStyle("-fx-text-fill: white;");
-        tcur3.setBorder(Border.EMPTY);
-        tcur3.setBackground(Background.EMPTY);
-        tcur3.setFont(Font.font("Rockwell", 16));
-        tcur3.setEditable(false);
-        tcur3.setMinSize(180, 30);
-        tcur3.setText("    Healer dead: " + healersDead());
-        v2.getChildren().add(tcur3);
-
-        TextField ts1 = new TextField();
-        ts1.setStyle("-fx-text-fill: white;");
-        ts1.setBorder(Border.EMPTY);
-        ts1.setBackground(Background.EMPTY);
-        ts1.setFont(Font.font("Rockwell", 16));
-        ts1.setEditable(false);
-        ts1.setMinSize(180, 30);
-        ts1.setText("    Soldiers alive: " + soldiersAlive());
-        v3.getChildren().add(ts1);
-
-        TextField ts2 = new TextField();
-        ts2.setStyle("-fx-text-fill: white;");
-        ts2.setBorder(Border.EMPTY);
-        ts2.setBackground(Background.EMPTY);
-        ts2.setFont(Font.font("Rockwell", 16));
-        ts2.setEditable(false);
-        ts2.setMinSize(180, 30);
-        ts2.setText("    Soldiers infected: " + soldiersInf());
-        v3.getChildren().add(ts2);
-
-        TextField ts3 = new TextField();
-        ts3.setStyle("-fx-text-fill: white;");
-        ts3.setBorder(Border.EMPTY);
-        ts3.setBackground(Background.EMPTY);
-        ts3.setFont(Font.font("Rockwell", 16));
-        ts3.setEditable(false);
-        ts3.setMinSize(180, 30);
-        ts3.setText("    Soldiers dead: " + soldiersDead());
-        v3.getChildren().add(ts3);
-
-        TextField tz1 = new TextField();
-        tz1.setStyle("-fx-text-fill: white;");
-        tz1.setBorder(Border.EMPTY);
-        tz1.setBackground(Background.EMPTY);
-        tz1.setFont(Font.font("Rockwell", 16));
-        tz1.setEditable(false);
-        tz1.setMinSize(180, 30);
-        tz1.setText("    Zombies alive: " + zombiesAlive());
-        v4.getChildren().add(tz1);
-        TextField tz2 = new TextField();
-
-        tz2.setStyle("-fx-text-fill: white;");
-        tz2.setBorder(Border.EMPTY);
-        tz2.setBackground(Background.EMPTY);
-        tz2.setFont(Font.font("Rockwell", 16));
-        tz2.setEditable(false);
-        tz2.setMinSize(180, 30);
-        tz2.setText("    Zombies dead: " + zombiesDead());
-        v4.getChildren().add(tz2);
-
-        TextField tcor1 = new TextField();
-        tcor1.setStyle("-fx-text-fill: white;");
-        tcor1.setBorder(Border.EMPTY);
-        tcor1.setBackground(Background.EMPTY);
-        tcor1.setFont(Font.font("Rockwell", 16));
-        tcor1.setEditable(false);
-        tcor1.setMinSize(180, 30);
-        tcor1.setText(" Runner alive: " + runnersAlive());
-        v5.getChildren().add(tcor1);
-
-        TextField tcor2 = new TextField();
-        tcor2.setStyle("-fx-text-fill: white;");
-        tcor2.setBorder(Border.EMPTY);
-        tcor2.setBackground(Background.EMPTY);
-        tcor2.setFont(Font.font("Rockwell", 16));
-        tcor2.setEditable(false);
-        tcor2.setMinSize(180, 30);
-        tcor2.setText(" Runners dead: " + runnersDead());
-        v5.getChildren().add(tcor2);
-
-        TextField ph = new TextField();
-        ph.setStyle("-fx-text-fill: red; -fx-font-weight: bold; -fx-font-size: 20; -fx-font-family:Rockwell");
-        ph.setBorder(Border.EMPTY);
-        ph.setBackground(Background.EMPTY);
-        ph.setEditable(false);
-        ph.setMinSize(180, 20);
-        ph.setText("    %H:        " + pH() + "%");
-        v4.getChildren().add(ph);
-
-        TextField pz = new TextField();
-        pz.setStyle("-fx-text-fill: green; -fx-font-weight: bold; -fx-font-size: 20; -fx-font-family:Rockwell");
-        pz.setBorder(Border.EMPTY);
-        pz.setBackground(Background.EMPTY);
-        pz.setEditable(false);
-        pz.setMinSize(180, 20);
-        pz.setText(" %Z:        " + pZ() + "%");
-        v5.getChildren().add(pz);
+        TextField thirdField = new TextField();
+        thirdField.setStyle("-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: transparent;");
+        thirdField.setFont(Font.font("Rockwell", 16));
+        thirdField.setEditable(false);
+        thirdField.setMinSize(850, 30);
+        thirdField.setText("Dumbs dead: "+dumbsDead()+"                Healer dead: "+healersDead()+"              Soldiers dead: "+soldiersDead()+"              %H:        "+pH()+"%"+"               %Z:        "+pZ()+"%");
+        grid.add(thirdField, 75, 30);
 
         buttons.get("BACK").setOnAction(e -> primaryStage.close());
         buttons.get("SAVE").setOnAction(e -> geraTxtSave());
         buttons.get("RESET")
-                .setOnAction(e -> setRefresh(characters, cells, tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1,
-                        tz2, tcor1, tcor2, pz, ph));
+                .setOnAction(e -> setRefresh(characters, cells, firstField, secondField, thirdField));
         buttons.get("NEXT STEP")
-                .setOnAction(e -> avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1,
-                        tcor2, pz, ph));
+                .setOnAction(e -> avancaSimulacao(firstField, secondField, thirdField));
         buttons.get("NEXT 10")
-                .setOnAction(e -> avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2,
-                        tcor1, tcor2, pz, ph));
+                .setOnAction(e -> avancaSimulacao10(firstField, secondField, thirdField));
         buttons.get("NEXT 100")
-                .setOnAction(e -> avancaSimulacao100(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2,
-                        tcor1, tcor2, pz, ph));
+                .setOnAction(e -> avancaSimulacao100(firstField, secondField, thirdField));
 
         Scene scene = new Scene(vb, 1300, 750);
         primaryStage.initStyle(StageStyle.DECORATED);
@@ -596,30 +450,16 @@ public class Game extends Application {
         return result + "";
     }
 
-    public void avancaSimulacao(TextField tb1, TextField tb2, TextField tb3, TextField tcur1, TextField tcur2,
-            TextField tcur3, TextField ts1, TextField ts2, TextField ts3, TextField tz1, TextField tz2, TextField tcor1,
-            TextField tcor2, TextField pz, TextField ph) {
+    public void avancaSimulacao(TextField firstField, TextField secondField, TextField thirdField) {
         characters.forEach(p -> {
             p.nextPos();
             p.stateStatus();
             p.action();
         });
 
-        tb1.setText("       Dumbs alive: " + dumbsAlive());
-        tb2.setText("       Dumbs infected: " + dumbsInf());
-        tb3.setText("       Dumbs dead: " + dumbsDead());
-        tcur1.setText("    Healers alive: " + healersAlive());
-        tcur2.setText("    Healers infected: " + healersInf());
-        tcur3.setText("    Healers dead: " + healersDead());
-        ts1.setText("    Soldiers alive: " + soldiersAlive());
-        ts2.setText("    Sodiers infected: " + soldiersInf());
-        ts3.setText("    Soldiers dead: " + soldiersDead());
-        tz1.setText("    Zombies alive: " + zombiesAlive());
-        tz2.setText("    Zombies dead: " + zombiesDead());
-        tcor1.setText(" Runners alive: " + runnersAlive());
-        tcor2.setText(" Runners dead: " + runnersDead());
-        pz.setText(" %Z:        " + pZ() + "%");
-        ph.setText("    %H:        " + pH() + "%");
+        firstField.setText("Dumbs alive: " + dumbsAlive()+"                Healers alive: " + healersAlive()+"             Soldiers alive: " + soldiersAlive()+"               Zombies alive: " + zombiesAlive()+"           Runners alive: " + runnersAlive());
+        secondField.setText("Dumbs infected: " + dumbsInf()+"          Healers infected: " + healersInf()+"         Sodiers infected: " + soldiersInf()+"        Zombies dead: " + zombiesDead()+"           Runners dead: " + runnersDead());
+        thirdField.setText("Dumbs dead: "+dumbsDead()+"                Healer dead: "+healersDead()+"              Soldiers dead: "+soldiersDead()+"              %H:        "+pH()+"%"+"               %Z:        "+pZ()+"%");
 
         if (pH().equalsIgnoreCase("0" + "")) {
             Alert msgBox = new Alert(AlertType.INFORMATION);
@@ -638,34 +478,30 @@ public class Game extends Application {
         }
     }
 
-    public void avancaSimulacao10(TextField tb1, TextField tb2, TextField tb3, TextField tcur1, TextField tcur2,
-            TextField tcur3, TextField ts1, TextField ts2, TextField ts3, TextField tz1, TextField tz2, TextField tcor1,
-            TextField tcor2, TextField pz, TextField ph) {
-        avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
+    public void avancaSimulacao10(TextField firstField, TextField secondField, TextField thirdField) {
+        avancaSimulacao(firstField, secondField, thirdField);
+        avancaSimulacao(firstField, secondField, thirdField);
+        avancaSimulacao(firstField, secondField, thirdField);
+        avancaSimulacao(firstField, secondField, thirdField);
+        avancaSimulacao(firstField, secondField, thirdField);
+        avancaSimulacao(firstField, secondField, thirdField);
+        avancaSimulacao(firstField, secondField, thirdField);
+        avancaSimulacao(firstField, secondField, thirdField);
+        avancaSimulacao(firstField, secondField, thirdField);
+        avancaSimulacao(firstField, secondField, thirdField);
     }
 
-    public void avancaSimulacao100(TextField tb1, TextField tb2, TextField tb3, TextField tcur1, TextField tcur2,
-            TextField tcur3, TextField ts1, TextField ts2, TextField ts3, TextField tz1, TextField tz2, TextField tcor1,
-            TextField tcor2, TextField pz, TextField ph) {
-        avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
-        avancaSimulacao10(tb1, tb2, tb3, tcur1, tcur2, tcur3, ts1, ts2, ts3, tz1, tz2, tcor1, tcor2, pz, ph);
+    public void avancaSimulacao100(TextField firstField, TextField secondField, TextField thirdField) {
+        avancaSimulacao10(firstField, secondField, thirdField);
+        avancaSimulacao10(firstField, secondField, thirdField);
+        avancaSimulacao10(firstField, secondField, thirdField);
+        avancaSimulacao10(firstField, secondField, thirdField);
+        avancaSimulacao10(firstField, secondField, thirdField);
+        avancaSimulacao10(firstField, secondField, thirdField);
+        avancaSimulacao10(firstField, secondField, thirdField);
+        avancaSimulacao10(firstField, secondField, thirdField);
+        avancaSimulacao10(firstField, secondField, thirdField);
+        avancaSimulacao10(firstField, secondField, thirdField);
     }
 
     public boolean geraTxtSave() {
@@ -847,9 +683,7 @@ public class Game extends Application {
         return true;
     }
 
-    public boolean setRefresh(List<Character> characters, List<Cell> cells, TextField tb1, TextField tb2, TextField tb3,
-            TextField tcur1, TextField tcur2, TextField tcur3, TextField ts1, TextField ts2, TextField ts3,
-            TextField tz1, TextField tz2, TextField tcor1, TextField tcor2, TextField pz, TextField ph) {
+    public boolean setRefresh(List<Character> characters, List<Cell> cells, TextField firstField, TextField secondField, TextField thirdField) {
         characters.clear();
         for (Cell c : cells) {
             c.setCharacter(null);
@@ -897,21 +731,9 @@ public class Game extends Application {
                 col++;
                 lin++;
 
-                tb1.setText("       Dumbs alive: " + dumbsAlive());
-                tb2.setText("       Dumbs infected: " + dumbsInf());
-                tb3.setText("       Dumbs dead: " + dumbsDead());
-                tcur1.setText("    Healers alive: " + healersAlive());
-                tcur2.setText("    Healers infected: " + healersInf());
-                tcur3.setText("    Healers dead: " + healersDead());
-                ts1.setText("    Soldiers alive: " + soldiersAlive());
-                ts2.setText("    Soldiers infected: " + soldiersInf());
-                ts3.setText("    Soldiers dead: " + soldiersDead());
-                tz1.setText("    Zombies alive: " + zombiesAlive());
-                tz2.setText("    Zombies dead: " + zombiesDead());
-                tcor1.setText(" Runners alive: " + runnersAlive());
-                tcor2.setText(" Runners dead: " + runnersDead());
-                pz.setText(" %Z:        " + pZ() + "%");
-                ph.setText("    %H:        " + pH() + "%");
+                firstField.setText("Dumbs alive: " + dumbsAlive()+"                Healers alive: " + healersAlive()+"             Soldiers alive: " + soldiersAlive()+"               Zombies alive: " + zombiesAlive()+"           Runners alive: " + runnersAlive());
+                secondField.setText("Dumbs infected: " + dumbsInf()+"          Healers infected: " + healersInf()+"         Sodiers infected: " + soldiersInf()+"        Zombies dead: " + zombiesDead()+"           Runners dead: " + runnersDead());
+                thirdField.setText("Dumbs dead: "+dumbsDead()+"                Healer dead: "+healersDead()+"              Soldiers dead: "+soldiersDead()+"              %H:        "+pH()+"%"+"               %Z:        "+pZ()+"%");
             }
         } catch (IOException x) {
             System.err.format("I/O error: %s%n", x);
