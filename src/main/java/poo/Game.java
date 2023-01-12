@@ -55,17 +55,13 @@ public class Game extends Application {
                 String[] data = line.split(" ");
                 if (data[0].equals("DUMBAMOUNT")) {
                     DUMBAMOUNT = Integer.parseInt(data[1]);
-                }
-                if (data[0].equals("HEALERAMOUNT")) {
+                } else if (data[0].equals("HEALERAMOUNT")) {
                     HEALERAMOUNT = Integer.parseInt(data[1]);
-                }
-                if (data[0].equals("SOLDIERAMOUNT")) {
+                } else if (data[0].equals("SOLDIERAMOUNT")) {
                     SOLDIERAMOUNT = Integer.parseInt(data[1]);
-                }
-                if (data[0].equals("ZOMBIEAMOUNT")) {
+                } else if (data[0].equals("ZOMBIEAMOUNT")) {
                     ZOMBIEAMOUNT = Integer.parseInt(data[1]);
-                }
-                if (data[0].equals("RUNNERAMOUNT")) {
+                } else if (data[0].equals("RUNNERAMOUNT")) {
                     RUNNERAMOUNT = Integer.parseInt(data[1]);
                 }
             }
@@ -97,7 +93,6 @@ public class Game extends Application {
 
     private void loadImages() {
         image = new HashMap<>();
-
         Image aux = new Image("file:Images/dumb.jpeg");
         image.put("Dumb", aux);
         aux = new Image("file:Images/dumbInfected.jpeg");
@@ -134,13 +129,12 @@ public class Game extends Application {
         BackgroundImage bgi = new BackgroundImage(new Image("file:Images/brown.jpg", 575, 620, false, true),
                 BackgroundRepeat.ROUND, BackgroundRepeat.ROUND, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         BackgroundImage bgi2 = new BackgroundImage(new Image("file:Images/black.jpg", 980, 620, false, true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT);
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
 
         tab.setBackground(new Background(bgi2));
         tab.setAlignment(Pos.CENTER);
-        tab.setHgap(-16); // -15
-        tab.setVgap(-8); // -7
+        tab.setHgap(-16);
+        tab.setVgap(-8);
         tab.setPadding(new Insets(5, 5, 5, 5));
 
         cells = new ArrayList<>(NLIN * NCOL);
@@ -151,11 +145,10 @@ public class Game extends Application {
                 tab.add(cel, col, lin);
             }
         }
-
         characters = new ArrayList<>(NLIN * NCOL);
 
         if (continueOption) {
-            readFile(characters, cells, 0);
+            readFile(characters, cells, ".SAVE.txt");
             fixAmount();
             textUpdate();
         } else {
@@ -220,7 +213,7 @@ public class Game extends Application {
                     }
                 }
             }
-            createFile(1);
+            createFile(".RESET.txt");
             fixAmount();
         }
 
@@ -293,8 +286,8 @@ public class Game extends Application {
         grid.add(thirdField, 75, 30);
 
         buttons.get("BACK").setOnAction(e -> primaryStage.close());
-        buttons.get("SAVE").setOnAction(e -> createFile(0));
-        buttons.get("RESET").setOnAction(e -> readFile(characters, cells, 1));
+        buttons.get("SAVE").setOnAction(e -> createFile(".SAVE.txt"));
+        buttons.get("RESET").setOnAction(e -> readFile(characters, cells, ".RESET.txt"));
         buttons.get("NEXT STEP").setOnAction(e -> nextStep());
         buttons.get("NEXT 10").setOnAction(e -> nextNSteps(10));
         buttons.get("NEXT 100").setOnAction(e -> nextNSteps(100));
@@ -442,18 +435,15 @@ public class Game extends Application {
             p.stateStatus();
             p.action();
         });
-
         textUpdate();
 
-        if (pH().equalsIgnoreCase("0" + "")) {
+        if (pH().equalsIgnoreCase("0")) {
             Alert msgBox = new Alert(AlertType.INFORMATION);
             msgBox.setHeaderText("Game Over");
             msgBox.setContentText("All humans are dead!\nMonster's victory!");
             msgBox.showAndWait();
             System.exit(0);
-        }
-
-        if (pZ().equalsIgnoreCase("0" + "")) {
+        } else if (pZ().equalsIgnoreCase("0")) {
             Alert msgBox = new Alert(AlertType.INFORMATION);
             msgBox.setHeaderText("Congratulations");
             msgBox.setContentText("All monsters are dead!\nHuman's victory!");
@@ -468,16 +458,11 @@ public class Game extends Application {
         }
     }
 
-    public boolean createFile(int type) {
-        FileWriter writer;
+    public boolean createFile(String fileName) {
         StringBuilder aux = new StringBuilder("\n");
         int separate = 0;
         try {
-            if(type==0)
-                writer = new FileWriter(".SAVE.txt");
-            else
-            writer = new FileWriter(".RESET.txt");
-    
+            FileWriter writer = new FileWriter(fileName);
             for (Cell cel : cells) {
                 if (separate != 0 && separate % 16 == 0) {
                     aux.append("\n");
@@ -498,18 +483,12 @@ public class Game extends Application {
         return true;
     }
 
-    public boolean readFile(ArrayList<Character> characters, ArrayList<Cell> cells, int type) {
+    public boolean readFile(ArrayList<Character> characters, ArrayList<Cell> cells, String fileName) {
         characters.clear();
         for (Cell c : cells) {
             c.setCharacter(null);
         }
-
-        Path path;
-        if(type==0)
-            path = Paths.get(".SAVE.txt");
-        else
-            path = Paths.get(".RESET.txt");
-
+        Path path = Paths.get(fileName);
         try (BufferedReader reader = Files.newBufferedReader(path, Charset.forName("utf8"))) {
             String line = null;
             line = reader.readLine();
@@ -532,37 +511,27 @@ public class Game extends Application {
     public void setCharacter(String data, int lin, int col, ArrayList<Character> characters) {
         if (data.substring(0, 2).equals("DC")) {
             characters.add(new Dumb(data.substring(2), lin, col, "DC"));
-        }
-        if (data.substring(0, 2).equals("DI")) {
+        } else if (data.substring(0, 2).equals("DI")) {
             Dumb aux = new Dumb(data.substring(2), lin, col, "DI");
-            aux.infect();;
+            aux.infect();
             characters.add(aux);
-        }
-        if (data.substring(0, 2).equals("HC")) {
+        } else if (data.substring(0, 2).equals("HC")) {
             characters.add(new Healer(data.substring(2), lin, col, "HC"));
-        }
-        if (data.substring(0, 2).substring(0, 2).equals("HI")) {
+        } else if (data.substring(0, 2).equals("HI")) {
             Healer aux = new Healer(data.substring(2), lin, col, "HI");
-            aux.infect();;
+            aux.infect();
             characters.add(aux);
-        }
-        if (data.substring(0, 2).equals("SC")) {
+        } else if (data.substring(0, 2).equals("SC")) {
             characters.add(new Soldier(data.substring(2), lin, col, "SC"));
-        }
-        if (data.substring(0, 2).equals("SI")) {
+        } else if (data.substring(0, 2).equals("SI")) {
             Soldier aux = new Soldier(data.substring(2), lin, col, "SI");
-            aux.infect();;
+            aux.infect();
             characters.add(aux);
-        }
-        if (data.substring(0, 2).equals("NZ")) {
+        } else if (data.substring(0, 2).equals("NZ")) {
             characters.add(new Zombie(data.substring(2), lin, col, "NZ"));
-        }
-        if (data.substring(0, 2).equals("RZ")) {
+        } else if (data.substring(0, 2).equals("RZ")) {
             characters.add(new Runner(data.substring(2), lin, col, "RZ"));
-        }
-        if (data.equals(".....")) {
-        }
-        ;
+        } else if (data.equals(".....")) {};
     }
 
     public void fixAmount() {
@@ -574,17 +543,13 @@ public class Game extends Application {
         for (Character p : characters) {
             if (p.getEnume() == Enume.DUMB) {
                 DUMBAMOUNT++;
-            }
-            if (p.getEnume() == Enume.HEALER) {
+            } else if (p.getEnume() == Enume.HEALER) {
                 HEALERAMOUNT++;
-            }
-            if (p.getEnume() == Enume.SOLDIER) {
+            } else if (p.getEnume() == Enume.SOLDIER) {
                 SOLDIERAMOUNT++;
-            }
-            if (p.getEnume() == Enume.ZOMBIE) {
+            } else if (p.getEnume() == Enume.ZOMBIE) {
                 ZOMBIEAMOUNT++;
-            }
-            if (p.getEnume() == Enume.RUNNER) {
+            } else if (p.getEnume() == Enume.RUNNER) {
                 RUNNERAMOUNT++;
             }
         }

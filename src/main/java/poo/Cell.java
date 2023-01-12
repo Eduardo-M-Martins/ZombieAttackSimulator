@@ -17,12 +17,9 @@ public class Cell extends javafx.scene.control.Button {
 
     public void setCharacterImage() {
         if (character != null) {
-            String image = "";
-            if (this.getCharacter().isAlive()) {
+            String image = "Dead";
+            if (this.getCharacter().isAlive())
                 image = this.getCharacter().getImage();
-            } else {
-                image = "Dead";
-            }
             ImageView iVaux = new ImageView(Game.getInstance().getImage(image));
             iVaux.setFitWidth(Game.CELL_SIDE);
             iVaux.setFitHeight(Game.CELL_SIDE);
@@ -45,9 +42,8 @@ public class Cell extends javafx.scene.control.Button {
 
     public void setCharacter(Character c) {
         this.character = c;
-        if (c != null) {
+        if (c != null)
             c.setCell(this);
-        }
         setCharacterImage();
     }
 
