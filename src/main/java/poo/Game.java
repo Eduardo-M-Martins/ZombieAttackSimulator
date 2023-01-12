@@ -535,7 +535,7 @@ public class Game extends Application {
         }
         if (data.substring(0, 2).equals("DI")) {
             Dumb aux = new Dumb(data.substring(2), lin, col, "DI");
-            aux.setImage("DumbInf");
+            aux.infect();;
             characters.add(aux);
         }
         if (data.substring(0, 2).equals("HC")) {
@@ -543,7 +543,7 @@ public class Game extends Application {
         }
         if (data.substring(0, 2).substring(0, 2).equals("HI")) {
             Healer aux = new Healer(data.substring(2), lin, col, "HI");
-            aux.setImage("HealerInf");
+            aux.infect();;
             characters.add(aux);
         }
         if (data.substring(0, 2).equals("SC")) {
@@ -551,7 +551,7 @@ public class Game extends Application {
         }
         if (data.substring(0, 2).equals("SI")) {
             Soldier aux = new Soldier(data.substring(2), lin, col, "SI");
-            aux.setImage("SoldierInf");
+            aux.infect();;
             characters.add(aux);
         }
         if (data.substring(0, 2).equals("NZ")) {
@@ -595,11 +595,11 @@ public class Game extends Application {
                 + "             Soldiers alive: " + soldiersAlive() + "               Zombies alive: "
                 + zombiesAlive() + "           Runners alive: " + runnersAlive());
         secondField.setText("Dumbs infected: " + dumbsInf() + "          Healers infected: " + healersInf()
-                + "        Sodiers infected: " + soldiersInf() + "         Zombies dead: " + zombiesDead()
-                + "            Runners dead: " + runnersDead());
+                + "       Sodiers infected: " + soldiersInf() + "          Zombies dead: " + zombiesDead()
+                + "           Runners dead: " + runnersDead());
         thirdField.setText("Dumbs dead: " + dumbsDead() + "                Healer dead: " + healersDead()
                 + "              Soldiers dead: " + soldiersDead() + "              %H:        " + pH() + "%"
-                + "               %Z:        " + pZ() + "%");
+                + "                %Z:        " + pZ() + "%");
     }
 
     public static void main(String[] args) {
