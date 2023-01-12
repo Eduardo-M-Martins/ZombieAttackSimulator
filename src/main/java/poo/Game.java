@@ -157,6 +157,7 @@ public class Game extends Application {
         if (continueOption) {
             readFile(characters, cells, 0);
             fixAmount();
+            textUpdate();
         } else {
             loadData();
 
@@ -308,6 +309,7 @@ public class Game extends Application {
         long dumbAlive = characters.stream()
                 .filter(p -> (p instanceof Dumb))
                 .filter(p -> p.isAlive())
+                .filter(p -> !(p.isInfected()))
                 .count();
         return dumbAlive + "";
     }
@@ -333,6 +335,7 @@ public class Game extends Application {
         long healersAlive = characters.stream()
                 .filter(p -> (p instanceof Healer))
                 .filter(p -> p.isAlive())
+                .filter(p -> !(p.isInfected()))
                 .count();
         return healersAlive + "";
     }
@@ -358,6 +361,7 @@ public class Game extends Application {
         long soldiersAlive = characters.stream()
                 .filter(p -> (p instanceof Soldier))
                 .filter(p -> p.isAlive())
+                .filter(p -> !(p.isInfected()))
                 .count();
         return soldiersAlive + "";
     }
@@ -519,7 +523,6 @@ public class Game extends Application {
                 }
                 lin++;
             }
-            textUpdate();
         } catch (IOException x) {
             System.err.format("I/O error: %s%n", x);
         }

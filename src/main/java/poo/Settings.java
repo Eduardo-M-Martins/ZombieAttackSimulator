@@ -23,18 +23,15 @@ public class Settings extends Application {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 BackgroundSize.DEFAULT);
 
-        final String IDLE_BUTTON_STYLE = "-fx-background-color: transparent; -fx-text-fill: white;";
-        final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
-
         Button btn1 = new Button();
         btn1.setAlignment(Pos.BOTTOM_CENTER);
         btn1.setText("BACK");
         btn1.setFont(Font.font("Rockwell", 14));
         btn1.setCursor(Cursor.HAND);
         btn1.getCursor();
-        btn1.setStyle(IDLE_BUTTON_STYLE);
-        btn1.setOnMouseEntered(e -> btn1.setStyle(HOVERED_BUTTON_STYLE));
-        btn1.setOnMouseExited(e -> btn1.setStyle(IDLE_BUTTON_STYLE));
+        btn1.setStyle(Menu.IDLE_BUTTON_STYLE);
+        btn1.setOnMouseEntered(e -> btn1.setStyle(Menu.HOVERED_BUTTON_STYLE));
+        btn1.setOnMouseExited(e -> btn1.setStyle(Menu.IDLE_BUTTON_STYLE));
 
         btn1.setOnAction((event) -> {
             stage.close();
@@ -46,7 +43,7 @@ public class Settings extends Application {
         t.setBorder(Border.EMPTY);
         t.setFont(Font.font("Rockwell", 40));
         t.setAlignment(Pos.TOP_CENTER);
-        t.setStyle(IDLE_BUTTON_STYLE);
+        t.setStyle(Menu.IDLE_BUTTON_STYLE);
 
         GridPane grid = new GridPane();
         grid.setBackground(new Background(bgi));
@@ -60,9 +57,9 @@ public class Settings extends Application {
         b1.setFont(Font.font("Rockwell", 14));
         b1.setCursor(Cursor.HAND);
         b1.getCursor();
-        b1.setStyle(IDLE_BUTTON_STYLE);
-        b1.setOnMouseEntered(e -> b1.setStyle(HOVERED_BUTTON_STYLE));
-        b1.setOnMouseExited(e -> b1.setStyle(IDLE_BUTTON_STYLE));
+        b1.setStyle(Menu.IDLE_BUTTON_STYLE);
+        b1.setOnMouseEntered(e -> b1.setStyle(Menu.HOVERED_BUTTON_STYLE));
+        b1.setOnMouseExited(e -> b1.setStyle(Menu.IDLE_BUTTON_STYLE));
 
         Button s1 = new Button("   ");
         s1.setBorder(Border.EMPTY);

@@ -16,18 +16,15 @@ public class History extends Application {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 BackgroundSize.DEFAULT);
 
-        final String IDLE_BUTTON_STYLE = "-fx-background-color: transparent; -fx-text-fill: white;";
-        final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
-
         Button btn1 = new Button();
         btn1.setAlignment(Pos.BOTTOM_CENTER);
         btn1.setText("BACK");
         btn1.setFont(Font.font("Rockwell", 14));
         btn1.setCursor(Cursor.HAND);
         btn1.getCursor();
-        btn1.setStyle(IDLE_BUTTON_STYLE);
-        btn1.setOnMouseEntered(e -> btn1.setStyle(HOVERED_BUTTON_STYLE));
-        btn1.setOnMouseExited(e -> btn1.setStyle(IDLE_BUTTON_STYLE));
+        btn1.setStyle(Menu.IDLE_BUTTON_STYLE);
+        btn1.setOnMouseEntered(e -> btn1.setStyle(Menu.HOVERED_BUTTON_STYLE));
+        btn1.setOnMouseExited(e -> btn1.setStyle(Menu.IDLE_BUTTON_STYLE));
 
         Button btn2 = new Button();
         btn2.setAlignment(Pos.BOTTOM_CENTER);
@@ -35,9 +32,9 @@ public class History extends Application {
         btn2.setFont(Font.font("Rockwell", 14));
         btn2.setCursor(Cursor.HAND);
         btn2.getCursor();
-        btn2.setStyle(IDLE_BUTTON_STYLE);
-        btn2.setOnMouseEntered(e -> btn2.setStyle(HOVERED_BUTTON_STYLE));
-        btn2.setOnMouseExited(e -> btn2.setStyle(IDLE_BUTTON_STYLE));
+        btn2.setStyle(Menu.IDLE_BUTTON_STYLE);
+        btn2.setOnMouseEntered(e -> btn2.setStyle(Menu.HOVERED_BUTTON_STYLE));
+        btn2.setOnMouseExited(e -> btn2.setStyle(Menu.IDLE_BUTTON_STYLE));
 
         HBox bts = new HBox();
         bts.setBackground(new Background(bgi));
@@ -63,7 +60,7 @@ public class History extends Application {
         t.setBorder(Border.EMPTY);
         t.setFont(Font.font("Rockwell", 40));
         t.setAlignment(Pos.TOP_CENTER);
-        t.setStyle(IDLE_BUTTON_STYLE);
+        t.setStyle(Menu.IDLE_BUTTON_STYLE);
 
         TextArea area = new TextArea();
         area.setStyle("-fx-control-inner-background:#482c20; -fx-highlight-fill: #482c20;");
