@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 
 public class Menu extends Application {
-
     public static final String IDLE_BUTTON_STYLE = "-fx-background-color: transparent; -fx-text-fill: white;";
     public static final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
     public static final String TEXT_PATTERN_1 = "-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: transparent; -fx-font-size: 16; -fx-font-family:Rockwell;";
@@ -22,11 +21,9 @@ public class Menu extends Application {
         GridPane grid = new GridPane();
         GridPane bgrd = new GridPane();
         BackgroundImage bgi = new BackgroundImage(new Image("file:Images/background.jpg", 550, 770, false, true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT);
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         BackgroundImage bgi2 = new BackgroundImage(new Image("file:Images/brown.jpg", 1800, 1000, false, true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT);
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
 
         bgrd.setBackground(new Background(bgi2));
         bgrd.getChildren().add(grid);
@@ -40,89 +37,80 @@ public class Menu extends Application {
         grid.setMinWidth(550);
         grid.setPadding(new Insets(25, 25, 25, 25));
         grid.setBackground(new Background(bgi));
+        
+        Button newGame = new Button();
+        newGame.setText("NEW GAME");
+        newGame.setFont(Font.font("Rockwell", 16));
+        grid.add(newGame, 7, 110);
+        newGame.setCursor(Cursor.HAND);
+        newGame.getCursor();
+        newGame.setStyle(IDLE_BUTTON_STYLE);
+        newGame.setOnMouseEntered(e -> newGame.setStyle(HOVERED_BUTTON_STYLE));
+        newGame.setOnMouseExited(e -> newGame.setStyle(IDLE_BUTTON_STYLE));
 
-        final String IDLE_BUTTON_STYLE = "-fx-background-color: transparent;";
-        final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
+        Button continueOption = new Button();
+        continueOption.setText("CONTINUE");
+        continueOption.setFont(Font.font("Rockwell", 16));
+        grid.add(continueOption, 7, 113);
+        continueOption.setCursor(Cursor.HAND);
+        continueOption.getCursor();
+        continueOption.setStyle(IDLE_BUTTON_STYLE);
+        continueOption.setOnMouseEntered(e -> continueOption.setStyle(HOVERED_BUTTON_STYLE));
+        continueOption.setOnMouseExited(e -> continueOption.setStyle(IDLE_BUTTON_STYLE));
 
-        Button btn1 = new Button();
-        btn1.setText("NEW GAME");
-        btn1.setFont(Font.font("Rockwell", 16));
-        grid.add(btn1, 7, 110);
-        btn1.setCursor(Cursor.HAND);
-        btn1.getCursor();
-        btn1.setStyle(IDLE_BUTTON_STYLE);
-        btn1.setOnMouseEntered(e -> btn1.setStyle(HOVERED_BUTTON_STYLE));
-        btn1.setOnMouseExited(e -> btn1.setStyle(IDLE_BUTTON_STYLE));
+        Button history = new Button();
+        history.setText("HISTORY");
+        history.setFont(Font.font("Rockwell", 16));
+        grid.add(history, 7, 116);
+        history.setCursor(Cursor.HAND);
+        history.getCursor();
+        history.setStyle(IDLE_BUTTON_STYLE);
+        history.setOnMouseEntered(e -> history.setStyle(HOVERED_BUTTON_STYLE));
+        history.setOnMouseExited(e -> history.setStyle(IDLE_BUTTON_STYLE));
 
-        Button btn2 = new Button();
-        btn2.setText("CONTINUE");
-        btn2.setFont(Font.font("Rockwell", 16));
-        grid.add(btn2, 7, 113);
-        btn2.setCursor(Cursor.HAND);
-        btn2.getCursor();
-        btn2.setStyle(IDLE_BUTTON_STYLE);
-        btn2.setOnMouseEntered(e -> btn2.setStyle(HOVERED_BUTTON_STYLE));
-        btn2.setOnMouseExited(e -> btn2.setStyle(IDLE_BUTTON_STYLE));
+        Button settings = new Button();
+        settings.setText("SETTINGS");
+        settings.setFont(Font.font("Rockwell", 16));
+        grid.add(settings, 7, 119);
+        settings.setCursor(Cursor.HAND);
+        settings.getCursor();
+        settings.setStyle(IDLE_BUTTON_STYLE);
+        settings.setOnMouseEntered(e -> settings.setStyle(HOVERED_BUTTON_STYLE));
+        settings.setOnMouseExited(e -> settings.setStyle(IDLE_BUTTON_STYLE));
 
-        Button btn3 = new Button();
-        btn3.setText("HISTORY");
-        btn3.setFont(Font.font("Rockwell", 16));
-        grid.add(btn3, 7, 116);
-        btn3.setCursor(Cursor.HAND);
-        btn3.getCursor();
-        btn3.setStyle(IDLE_BUTTON_STYLE);
-        btn3.setOnMouseEntered(e -> btn3.setStyle(HOVERED_BUTTON_STYLE));
-        btn3.setOnMouseExited(e -> btn3.setStyle(IDLE_BUTTON_STYLE));
+        Button quit = new Button();
+        quit.setText("QUIT");
+        quit.setFont(Font.font("Rockwell", 16));
+        grid.add(quit, 7, 121);
+        quit.setCursor(Cursor.HAND);
+        quit.getCursor();
+        quit.setStyle(IDLE_BUTTON_STYLE);
+        quit.setOnMouseEntered(e -> quit.setStyle(HOVERED_BUTTON_STYLE));
+        quit.setOnMouseExited(e -> quit.setStyle(IDLE_BUTTON_STYLE));
+        createAmounts();
 
-        Button btn4 = new Button();
-        btn4.setText("SETTINGS");
-        btn4.setFont(Font.font("Rockwell", 16));
-        grid.add(btn4, 7, 119);
-        btn4.setCursor(Cursor.HAND);
-        btn4.getCursor();
-        btn4.setStyle(IDLE_BUTTON_STYLE);
-        btn4.setOnMouseEntered(e -> btn4.setStyle(HOVERED_BUTTON_STYLE));
-        btn4.setOnMouseExited(e -> btn4.setStyle(IDLE_BUTTON_STYLE));
-
-        Button btn5 = new Button();
-        btn5.setText("QUIT");
-        btn5.setFont(Font.font("Rockwell", 16));
-        grid.add(btn5, 7, 121);
-        btn5.setCursor(Cursor.HAND);
-        btn5.getCursor();
-        btn5.setStyle(IDLE_BUTTON_STYLE);
-        btn5.setOnMouseEntered(e -> btn5.setStyle(HOVERED_BUTTON_STYLE));
-        btn5.setOnMouseExited(e -> btn5.setStyle(IDLE_BUTTON_STYLE));
-        geraTxtQtd();
-
-        btn1.setOnAction((event) -> {
+        newGame.setOnAction((event) -> {
             Game game = new Game(false);
             game.start(new Stage());
-
         });
-
-        btn2.setOnAction((event) -> {
+        continueOption.setOnAction((event) -> {
             Game continueGame = new Game(true);
             continueGame.start(new Stage());
         });
-
-        btn3.setOnAction((event) -> {
+        history.setOnAction((event) -> {
             History h = new History();
             h.start(new Stage());
         });
-
-        btn4.setOnAction((event) -> {
+        settings.setOnAction((event) -> {
             Settings c = new Settings();
             c.start(new Stage());
         });
-
-        btn5.setOnAction((event) -> {
+        quit.setOnAction((event) -> {
             Platform.exit();
             System.exit(0);
         });
 
         Scene scene = new Scene(bgrd, bgi.getImage().getWidth(), bgi.getImage().getHeight());
-
         stage.initStyle(StageStyle.DECORATED);
         stage.setTitle("MENU - Zombie Attack Simulation");
         stage.setScene(scene);
@@ -131,16 +119,14 @@ public class Menu extends Application {
         scene.getCursor();
     }
 
-    public boolean geraTxtQtd() {
-        FileWriter writer;
+    public boolean createAmounts() {
         try {
-            writer = new FileWriter(".AMOUNTS.txt");
-            writer.append("\n");
-            writer.append("DUMBAMOUNT" + " " + "8\n");
-            writer.append("HEALERAMOUNT" + " " + "4\n");
-            writer.append("SOLDIERAMOUNT" + " " + "5\n");
-            writer.append("ZOMBIEAMOUNT" + " " + "5\n");
-            writer.append("RUNNERAMOUNT" + " " + "4");
+            FileWriter writer = new FileWriter(".AMOUNTS.txt");
+            writer.append("\nDUMBAMOUNT 8\n");
+            writer.append("HEALERAMOUNT 4\n");
+            writer.append("SOLDIERAMOUNT 5\n");
+            writer.append("ZOMBIEAMOUNT 5\n");
+            writer.append("RUNNERAMOUNT 4");
             writer.flush();
             writer.close();
         } catch (IOException x) {

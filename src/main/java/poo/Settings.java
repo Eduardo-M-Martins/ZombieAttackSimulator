@@ -1,6 +1,8 @@
 package poo;
 
 import java.io.*;
+import java.util.HashMap;
+
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.*;
@@ -20,36 +22,32 @@ public class Settings extends Application {
 
     public void start(Stage stage) {
         BackgroundImage bgi = new BackgroundImage(new Image("file:Images/brown.jpg", 1800, 1000, false, true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT);
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
 
-        Button btn1 = new Button();
-        btn1.setAlignment(Pos.BOTTOM_CENTER);
-        btn1.setText("BACK");
-        btn1.setFont(Font.font("Rockwell", 14));
-        btn1.setCursor(Cursor.HAND);
-        btn1.getCursor();
-        btn1.setStyle(Menu.IDLE_BUTTON_STYLE);
-        btn1.setOnMouseEntered(e -> btn1.setStyle(Menu.HOVERED_BUTTON_STYLE));
-        btn1.setOnMouseExited(e -> btn1.setStyle(Menu.IDLE_BUTTON_STYLE));
+        Button back = new Button();
+        back.setAlignment(Pos.BOTTOM_CENTER);
+        back.setText("BACK");
+        back.setFont(Font.font("Rockwell", 14));
+        back.setCursor(Cursor.HAND);
+        back.getCursor();
+        back.setStyle(Menu.IDLE_BUTTON_STYLE);
+        back.setOnMouseEntered(e -> back.setStyle(Menu.HOVERED_BUTTON_STYLE));
+        back.setOnMouseExited(e -> back.setStyle(Menu.IDLE_BUTTON_STYLE));
 
-        btn1.setOnAction((event) -> {
+        back.setOnAction((event) -> {
             stage.close();
         });
 
-        Button t = new Button();
-        t.setText("S E T T I N G S");
-        t.setBackground(Background.EMPTY);
-        t.setBorder(Border.EMPTY);
-        t.setFont(Font.font("Rockwell", 40));
-        t.setAlignment(Pos.TOP_CENTER);
-        t.setStyle(Menu.IDLE_BUTTON_STYLE);
+        Button title = new Button();
+        title.setText("S E T T I N G S");
+        title.setAlignment(Pos.TOP_CENTER);
+        title.setStyle("-fx-text-fill: white; -fx-font-size: 40; -fx-font-family:Rockwell; -fx-background-color: transparent; -fx-border-color: transparent;");
 
         GridPane grid = new GridPane();
         grid.setBackground(new Background(bgi));
         grid.setMinSize(500, 45);
         grid.setAlignment(Pos.TOP_CENTER);
-        grid.getChildren().add(t);
+        grid.getChildren().add(title);
 
         Button b1 = new Button();
         b1.setAlignment(Pos.BOTTOM_CENTER);
@@ -85,6 +83,40 @@ public class Settings extends Application {
         s51.setBorder(Border.EMPTY);
         s51.setBackground(Background.EMPTY);
 
+        HashMap<String, TextField> inputText = new HashMap();
+        inputText.put("dumbAmount", new TextField());
+        inputText.put("healerAmount", new TextField());
+        inputText.put("soldierAmount", new TextField());
+        inputText.put("zombieAmount", new TextField());
+        inputText.put("runnerAmount", new TextField());
+
+        inputText.forEach((key, value) -> {
+            value.setMaxWidth(45);
+            value.setFont(Font.font("Rockwell", 16));
+            value.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    if (!newValue.isEmpty()) {
+                        try {
+                            long pointI = Integer.parseInt(newValue);
+                            value.setText(String.valueOf(pointI));
+                        } catch (Exception e) {
+                            value.clear();
+                            value.setText(getNumber(oldValue));
+                        }
+                    }
+                }
+            });
+            value.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    if (!newValue.matches("\\d{0,2}([\\.]\\d{0,0})?")) {
+                        value.setText(oldValue);
+                    }
+                }
+            });
+        });
+
         TextField tx1 = new TextField();
         tx1.setStyle("-fx-text-fill: white;");
         tx1.setBorder(Border.EMPTY);
@@ -95,32 +127,7 @@ public class Settings extends Application {
         tx1.setAlignment(Pos.CENTER);
         tx1.setText("Amount of Dumbs: ");
 
-        TextField tx11 = new TextField();
-        tx11.setMaxWidth(45);
-        tx11.setFont(Font.font("Rockwell", 16));
-        tx11.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.isEmpty()) {
-                    try {
-                        long pointI = Integer.parseInt(newValue);
-                        tx11.setText(String.valueOf(pointI));
-                    } catch (Exception e) {
-                        tx11.clear();
-                        tx11.setText(getNumber(oldValue));
-                    }
-                }
-            }
-        });
-        tx11.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,2}([\\.]\\d{0,0})?")) {
-                    tx11.setText(oldValue);
-                }
-            }
-        });
-        tx11.setText(DUMBAMOUNT);
+        inputText.get("dumbAmount").setText(DUMBAMOUNT);
 
         Button s2 = new Button("-50 pts");
         s2.setBorder(Border.EMPTY);
@@ -138,7 +145,7 @@ public class Settings extends Application {
         h1.getChildren().add(s11);
         h1.getChildren().add(new ImageView(new Image("file:Images/dumb.jpeg", 120, 120, false, true)));
         h1.getChildren().add(tx1);
-        h1.getChildren().add(tx11);
+        h1.getChildren().add(inputText.get("dumbAmount"));
         h1.getChildren().add(s2);
 
         TextField tx2 = new TextField();
@@ -151,32 +158,7 @@ public class Settings extends Application {
         tx2.setAlignment(Pos.CENTER);
         tx2.setText("Amount of Healers: ");
 
-        TextField tx21 = new TextField();
-        tx21.setMaxWidth(45);
-        tx21.setFont(Font.font("Rockwell", 16));
-        tx21.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.isEmpty()) {
-                    try {
-                        long pointI = Integer.parseInt(newValue);
-                        tx21.setText(String.valueOf(pointI));
-                    } catch (Exception e) {
-                        tx21.clear();
-                        tx21.setText(getNumber(oldValue));
-                    }
-                }
-            }
-        });
-        tx21.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,2}([\\.]\\d{0,0})?")) {
-                    tx21.setText(oldValue);
-                }
-            }
-        });
-        tx21.setText(HEALERAMOUNT);
+        inputText.get("healerAmount").setText(HEALERAMOUNT);
 
         Button s3 = new Button("-75 pts");
         s3.setBorder(Border.EMPTY);
@@ -194,7 +176,7 @@ public class Settings extends Application {
         h2.getChildren().add(s21);
         h2.getChildren().add(new ImageView(new Image("file:Images/healer.jpeg", 120, 120, false, true)));
         h2.getChildren().add(tx2);
-        h2.getChildren().add(tx21);
+        h2.getChildren().add(inputText.get("healerAmount"));
         h2.getChildren().add(s3);
 
         TextField tx3 = new TextField();
@@ -207,32 +189,7 @@ public class Settings extends Application {
         tx3.setAlignment(Pos.CENTER);
         tx3.setText("Amount of Soldiers: ");
 
-        TextField tx31 = new TextField();
-        tx31.setMaxWidth(45);
-        tx31.setFont(Font.font("Rockwell", 16));
-        tx31.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.isEmpty()) {
-                    try {
-                        long pointI = Integer.parseInt(newValue);
-                        tx31.setText(String.valueOf(pointI));
-                    } catch (Exception e) {
-                        tx31.clear();
-                        tx31.setText(getNumber(oldValue));
-                    }
-                }
-            }
-        });
-        tx31.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,2}([\\.]\\d{0,0})?")) {
-                    tx31.setText(oldValue);
-                }
-            }
-        });
-        tx31.setText(SOLDIERAMOUNT);
+        inputText.get("soldierAmount").setText(SOLDIERAMOUNT);
 
         Button s4 = new Button("-100 pts");
         s4.setBorder(Border.EMPTY);
@@ -250,7 +207,7 @@ public class Settings extends Application {
         h3.getChildren().add(s31);
         h3.getChildren().add(new ImageView(new Image("file:Images/soldier.jpeg", 120, 120, false, true)));
         h3.getChildren().add(tx3);
-        h3.getChildren().add(tx31);
+        h3.getChildren().add(inputText.get("soldierAmount"));
         h3.getChildren().add(s4);
 
         TextField tx4 = new TextField();
@@ -263,32 +220,7 @@ public class Settings extends Application {
         tx4.setAlignment(Pos.CENTER);
         tx4.setText("Amount of Zombies: ");
 
-        TextField tx41 = new TextField();
-        tx41.setMaxWidth(45);
-        tx41.setFont(Font.font("Rockwell", 16));
-        tx41.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.isEmpty()) {
-                    try {
-                        long pointI = Integer.parseInt(newValue);
-                        tx41.setText(String.valueOf(pointI));
-                    } catch (Exception e) {
-                        tx41.clear();
-                        tx41.setText(getNumber(oldValue));
-                    }
-                }
-            }
-        });
-        tx41.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,2}([\\.]\\d{0,0})?")) {
-                    tx41.setText(oldValue);
-                }
-            }
-        });
-        tx41.setText(ZOMBIEAMOUNT);
+        inputText.get("zombieAmount").setText(ZOMBIEAMOUNT);
 
         Button s5 = new Button("+200 pts");
         s5.setBorder(Border.EMPTY);
@@ -306,7 +238,7 @@ public class Settings extends Application {
         h4.getChildren().add(s41);
         h4.getChildren().add(new ImageView(new Image("file:Images/zombie.jpeg", 120, 120, false, true)));
         h4.getChildren().add(tx4);
-        h4.getChildren().add(tx41);
+        h4.getChildren().add(inputText.get("zombieAmount"));
         h4.getChildren().add(s5);
 
         TextField tx5 = new TextField();
@@ -319,32 +251,7 @@ public class Settings extends Application {
         tx5.setAlignment(Pos.CENTER);
         tx5.setText("Amount of Runners: ");
 
-        TextField tx51 = new TextField();
-        tx51.setMaxWidth(45);
-        tx51.setFont(Font.font("Rockwell", 16));
-        tx51.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.isEmpty()) {
-                    try {
-                        long pointI = Integer.parseInt(newValue);
-                        tx51.setText(String.valueOf(pointI));
-                    } catch (Exception e) {
-                        tx51.clear();
-                        tx51.setText(getNumber(oldValue));
-                    }
-                }
-            }
-        });
-        tx51.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,2}([\\.]\\d{0,0})?")) {
-                    tx51.setText(oldValue);
-                }
-            }
-        });
-        tx51.setText(RUNNERAMOUNT);
+        inputText.get("runnerAmount").setText(RUNNERAMOUNT);
 
         Button s6 = new Button("+300 pts");
         s6.setBorder(Border.EMPTY);
@@ -362,21 +269,21 @@ public class Settings extends Application {
         h5.getChildren().add(s51);
         h5.getChildren().add(new ImageView(new Image("file:Images/runner.jpeg", 120, 120, false, true)));
         h5.getChildren().add(tx5);
-        h5.getChildren().add(tx51);
+        h5.getChildren().add(inputText.get("runnerAmount"));
         h5.getChildren().add(s6);
 
         b1.setOnAction((event) -> {
-            tx11.setText(tx11.getText());
-            tx21.setText(tx21.getText());
-            tx31.setText(tx31.getText());
-            tx41.setText(tx41.getText());
-            tx51.setText(tx51.getText());
-            setB(tx11.getText());
-            setC(tx21.getText());
-            setS(tx31.getText());
-            setZ(tx41.getText());
-            setZC(tx51.getText());
-            geraCsv();
+            inputText.get("dumbAmount").setText(inputText.get("dumbAmount").getText());
+            inputText.get("healerAmount").setText(inputText.get("healerAmount").getText());
+            inputText.get("soldierAmount").setText(inputText.get("soldierAmount").getText());
+            inputText.get("zombieAmount").setText(inputText.get("zombieAmount").getText());
+            inputText.get("runnerAmount").setText(inputText.get("runnerAmount").getText());
+            setDumb(inputText.get("dumbAmount").getText());
+            setHealer(inputText.get("healerAmount").getText());
+            setSoldier(inputText.get("soldierAmount").getText());
+            setZombie(inputText.get("zombieAmount").getText());
+            setRunner(inputText.get("runnerAmount").getText());
+            createAmounts();
         });
 
         VBox vbc = new VBox();
@@ -395,7 +302,7 @@ public class Settings extends Application {
         vb.getChildren().add(vbc);
         vb.getChildren().add(s1);
         vb.getChildren().add(b1);
-        vb.getChildren().add(btn1);
+        vb.getChildren().add(back);
 
         Scene scene = new Scene(vb, 550, 770);
         stage.initStyle(StageStyle.DECORATED);
@@ -424,30 +331,25 @@ public class Settings extends Application {
         }
     }
 
-    public void setB(String n) {
+    public void setDumb(String n) {
         this.DUMBAMOUNT = n;
     }
-
-    public void setC(String n) {
+    public void setHealer(String n) {
         this.HEALERAMOUNT = n;
     }
-
-    public void setS(String n) {
+    public void setSoldier(String n) {
         this.SOLDIERAMOUNT = n;
     }
-
-    public void setZ(String n) {
+    public void setZombie(String n) {
         this.ZOMBIEAMOUNT = n;
     }
-
-    public void setZC(String n) {
+    public void setRunner(String n) {
         this.RUNNERAMOUNT = n;
     }
 
-    public boolean geraCsv() {
-        FileWriter writer;
+    public boolean createAmounts() {
         try {
-            writer = new FileWriter(".AMOUNTS.txt");
+            FileWriter writer = new FileWriter(".AMOUNTS.txt");
             writer.append("\n");
             writer.append("DUMBAMOUNT" + " " + DUMBAMOUNT + "\n");
             writer.append("HEALERAMOUNT" + " " + HEALERAMOUNT + "\n");

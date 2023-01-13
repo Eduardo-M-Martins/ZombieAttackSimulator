@@ -16,73 +16,59 @@ public class History extends Application {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 BackgroundSize.DEFAULT);
 
-        Button btn1 = new Button();
-        btn1.setAlignment(Pos.BOTTOM_CENTER);
-        btn1.setText("BACK");
-        btn1.setFont(Font.font("Rockwell", 14));
-        btn1.setCursor(Cursor.HAND);
-        btn1.getCursor();
-        btn1.setStyle(Menu.IDLE_BUTTON_STYLE);
-        btn1.setOnMouseEntered(e -> btn1.setStyle(Menu.HOVERED_BUTTON_STYLE));
-        btn1.setOnMouseExited(e -> btn1.setStyle(Menu.IDLE_BUTTON_STYLE));
+        Button back = new Button();
+        back.setAlignment(Pos.BOTTOM_CENTER);
+        back.setText("BACK");
+        back.setFont(Font.font("Rockwell", 14));
+        back.setCursor(Cursor.HAND);
+        back.getCursor();
+        back.setStyle(Menu.IDLE_BUTTON_STYLE);
+        back.setOnMouseEntered(e -> back.setStyle(Menu.HOVERED_BUTTON_STYLE));
+        back.setOnMouseExited(e -> back.setStyle(Menu.IDLE_BUTTON_STYLE));
 
-        Button btn2 = new Button();
-        btn2.setAlignment(Pos.BOTTOM_CENTER);
-        btn2.setText("ABOUT");
-        btn2.setFont(Font.font("Rockwell", 14));
-        btn2.setCursor(Cursor.HAND);
-        btn2.getCursor();
-        btn2.setStyle(Menu.IDLE_BUTTON_STYLE);
-        btn2.setOnMouseEntered(e -> btn2.setStyle(Menu.HOVERED_BUTTON_STYLE));
-        btn2.setOnMouseExited(e -> btn2.setStyle(Menu.IDLE_BUTTON_STYLE));
+        Button about = new Button();
+        about.setAlignment(Pos.BOTTOM_CENTER);
+        about.setText("ABOUT");
+        about.setFont(Font.font("Rockwell", 14));
+        about.setCursor(Cursor.HAND);
+        about.getCursor();
+        about.setStyle(Menu.IDLE_BUTTON_STYLE);
+        about.setOnMouseEntered(e -> about.setStyle(Menu.HOVERED_BUTTON_STYLE));
+        about.setOnMouseExited(e -> about.setStyle(Menu.IDLE_BUTTON_STYLE));
 
         HBox bts = new HBox();
         bts.setBackground(new Background(bgi));
         bts.setAlignment(Pos.TOP_CENTER);
-        bts.getChildren().add(btn1);
-        bts.getChildren().add(btn2);
+        bts.getChildren().add(back);
+        bts.getChildren().add(about);
 
-        btn1.setOnAction((event) -> {
+        back.setOnAction((event) -> {
             stage.close();
         });
-
-        btn2.setOnAction((event) -> {
+        about.setOnAction((event) -> {
             Alert msgBox = new Alert(AlertType.INFORMATION);
             msgBox.setHeaderText("DEVELOPERS");
             msgBox.setContentText("Programming: Eduardo Machado Martins\nVisual producer: Pedro Machado Dorneles");
             msgBox.showAndWait();
         });
 
-        Button t = new Button();
-        t.setText("H I S T O R Y");
-        t.setBackground(Background.EMPTY);
-        t.setMinSize(0, 150);
-        t.setBorder(Border.EMPTY);
-        t.setFont(Font.font("Rockwell", 40));
-        t.setAlignment(Pos.TOP_CENTER);
-        t.setStyle(Menu.IDLE_BUTTON_STYLE);
+        Button title = new Button();
+        title.setText("H I S T O R Y");
+        title.setAlignment(Pos.TOP_CENTER);
+        title.setStyle("-fx-text-fill: white; -fx-font-size: 40; -fx-font-family:Rockwell; -fx-background-color: transparent; -fx-border-color: transparent;");
 
         TextArea area = new TextArea();
-        area.setStyle("-fx-control-inner-background:#482c20; -fx-highlight-fill: #482c20;");
-        area.setBorder(Border.EMPTY);
-        area.setBackground(Background.EMPTY);
+        area.setStyle("-fx-control-inner-background:#482c20; -fx-highlight-fill: #482c20; -fx-font-size: 16; -fx-font-family:Rockwell; -fx-background-color: transparent; -fx-border-color: transparent;");
         area.setPrefColumnCount(5);
-        area.setPrefHeight(500);
+        area.setPrefHeight(650);
         area.setPrefWidth(5);
-        area.setFont(Font.font("Rockwell", 16));
         area.setEditable(false);
         area.setText("History...");
-
-        GridPane grid = new GridPane();
-        grid.setBackground(new Background(bgi));
-        grid.setMinSize(500, 45);
-        grid.setAlignment(Pos.TOP_CENTER);
-        grid.getChildren().add(t);
 
         VBox vb = new VBox();
         vb.setBackground(new Background(bgi));
         vb.setAlignment(Pos.TOP_CENTER);
-        vb.getChildren().add(grid);
+        vb.getChildren().add(title);
         vb.getChildren().add(area);
         vb.getChildren().add(bts);
 
