@@ -58,12 +58,12 @@ public class History extends Application {
         title.setStyle("-fx-text-fill: white; -fx-font-size: 40; -fx-font-family:Rockwell; -fx-background-color: transparent; -fx-border-color: transparent;");
 
         TextArea area = new TextArea();
-        area.setStyle("-fx-control-inner-background:#482c20; -fx-highlight-fill: #482c20; -fx-font-size: 16; -fx-font-family:Rockwell; -fx-background-color: transparent; -fx-border-color: transparent;");
+        area.setStyle("-fx-control-inner-background:#482c20; -fx-highlight-fill: #482c20; -fx-font-size: 19; -fx-font-family:Rockwell; -fx-background-color: transparent; -fx-border-color: transparent;");
         area.setPrefColumnCount(5);
-        area.setPrefHeight(650);
+        area.setPrefHeight(600);
         area.setPrefWidth(5);
         area.setEditable(false);
-        area.setText("History...");
+        area.setText("In the distant future, humanity faces a global disaster.\nThe zombie apocalypse has come true. To fight back, a\ngroup of developers created a combat simulation. Your\ngoal in this simulation is to use a configuration that\nuses the least amount of resources to finish off as many\nmonsters as possible. Each character has its own\ncharacteristics as follows. The idiot does not move, but\nwith his desperation he manages to take 25 energy points\nfrom the enemy. The healer can move up to two spaces\nand heals infected humans. The soldier moves one space\nat a time and with his weapon takes 75 energy points from\nthe enemy. The normal zombie walks one house at a time\nand infects humans, as does the runner, but this walks\nup to two houses. When infected, the human loses 20\nenergy points per round. All characters have 100 energy\npoints, except the zombie which has 150. Save your\nresources, good luck.");
 
         VBox vb = new VBox();
         vb.setBackground(new Background(bgi));

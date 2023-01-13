@@ -42,7 +42,7 @@ public class Dumb extends Character {
                         if (p != null) {
                             if (p.getEnume() == Enume.RUNNER || p.getEnume() == Enume.ZOMBIE) {
                                 if (this.isAlive()) {
-                                    p.decEnergy(20);
+                                    p.decEnergy(25);
                                 }
                             }
                         }
@@ -55,7 +55,7 @@ public class Dumb extends Character {
     @Override
     public void stateStatus() {
         if (this.isInfected()) {
-            decEnergy(15);
+            decEnergy(20);
         }
 
         if (this.getEnergy() <= 0) {

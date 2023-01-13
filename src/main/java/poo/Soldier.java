@@ -64,7 +64,7 @@ public class Soldier extends Character {
                         if (p != null) {
                             if (p.getEnume() == Enume.RUNNER || p.getEnume() == Enume.ZOMBIE) {
                                 if (this.isAlive()) {
-                                    p.decEnergy(50);
+                                    p.decEnergy(75);
                                 }
                             }
                         }
