@@ -33,16 +33,6 @@ public abstract class Character {
         return energy;
     }
 
-    public void kill() {
-        this.energy = 0;
-    }
-
-    public void incEnergy(int value) {
-        if (value < 0)
-            throw new IllegalArgumentException("Invalid energy value");
-        energy += value;
-    }
-
     public void decEnergy(int value) {
         if (value < 0)
             throw new IllegalArgumentException("Invalid energy value");
@@ -89,8 +79,6 @@ public abstract class Character {
     }
 
     public abstract void nextPos();
-
     public abstract void stateStatus();
-
     public abstract void action();
 }

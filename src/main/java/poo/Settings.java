@@ -2,7 +2,6 @@ package poo;
 
 import java.io.*;
 import java.util.HashMap;
-
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.*;
@@ -37,7 +36,6 @@ public class Settings extends Application {
         back.setStyle(Menu.IDLE_BUTTON_STYLE);
         back.setOnMouseEntered(e -> back.setStyle(Menu.HOVERED_BUTTON_STYLE));
         back.setOnMouseExited(e -> back.setStyle(Menu.IDLE_BUTTON_STYLE));
-
         back.setOnAction((event) -> {
             stage.close();
         });
@@ -70,19 +68,15 @@ public class Settings extends Application {
         Button s11 = new Button("   ");
         s11.setBorder(Border.EMPTY);
         s11.setBackground(Background.EMPTY);
-
         Button s21 = new Button("   ");
         s21.setBorder(Border.EMPTY);
         s21.setBackground(Background.EMPTY);
-
         Button s31 = new Button("   ");
         s31.setBorder(Border.EMPTY);
         s31.setBackground(Background.EMPTY);
-
         Button s41 = new Button("   ");
         s41.setBorder(Border.EMPTY);
         s41.setBackground(Background.EMPTY);
-
         Button s51 = new Button("   ");
         s51.setBorder(Border.EMPTY);
         s51.setBackground(Background.EMPTY);
