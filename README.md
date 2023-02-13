@@ -5,7 +5,7 @@ This project is a mini game about a zombie attack: "In the distant future, human
 
 ## Dependencies
 This application uses Java, JavaFX and Maven.
-## Compilation and run
+## Execution
 The following command compiles and runs the application, the rest is user-friendly.
 ```
 mvn compile javafx:run
