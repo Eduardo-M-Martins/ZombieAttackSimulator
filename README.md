@@ -12,5 +12,5 @@ mvn compile javafx:run
 ```
 ##
 <div align="center">  
-  <img src="https://cdn.discordapp.com/attachments/1076157666986049598/1076165061795643492/zas.png" alt="Game preview" /> 
+  <img src="https://cdn.discordapp.com/attachments/1076157666986049598/1076166692381671475/zas.png" alt="Game preview" /> 
 </div>
